@@ -17,6 +17,15 @@ class CLIInterface(object):
 	def __init__(self, arg):
 		super(CLIInterface, self).__init__()
 		self.arg = arg
+		self.option_selected_hash = -1
+	def greet(self, username):
+		print('Welcome {0}. I am Octo-Py: the genius predictor'.format(username))
+	def get_input_options(self):
+		input_options = ["EXCEL from local","JSON from url","CSV from url"]
+		print('Input options available are:\n')
+		#print((i,input_options[i]) for i in range(input_options))
+		for index in range(len(input_options)):
+			print('Press {0} for {1}'.format(index+1, input_options[index]))
 
 class Service(object):
 	"""docstring for Service"""
@@ -51,3 +60,11 @@ class Model(object):
 		self.arg = arg
 
 
+if __name__ == '__main__':
+	username = "Nevil"
+	interface = CLIInterface(None)
+	interface.greet(username)
+	interface.get_input_options()
+	interface.option_selected_hash = input("Enter any 1 of the above options:")
+	print(interface.option_selected_hash)
+	#interface.load_data()
