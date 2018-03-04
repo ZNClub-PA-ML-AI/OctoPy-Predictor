@@ -13,6 +13,8 @@ Generic platform for Prediction using basic machine learning models
 ## Components
 
 ## Architecture
+![Proposed Architecture][logo]
+
 
 ## Setup
 
@@ -20,3 +22,6 @@ Generic platform for Prediction using basic machine learning models
 
 ## Algorithms supported
 - Support Vector Machine
+
+
+[logo]: https://raw.githubusercontent.com/ZNevzz/ZNevzz.github.io/master/Octo-Py.png
