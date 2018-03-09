@@ -47,12 +47,13 @@ class Service(object):
 		super(Service, self).__init__()
 		self.arg = arg
 		self.datagatherer = None
+		self.df = None
 
 	def set_datagatherer(self, datagatherer):
 		self.datagatherer = datagatherer
 
 	def load_data(self, path):
-		df = self.datagatherer.read(path)
+		self.df = self.datagatherer.read(path)
 
 ###################################################################################################
 
