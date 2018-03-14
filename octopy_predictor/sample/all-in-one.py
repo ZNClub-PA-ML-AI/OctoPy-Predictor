@@ -2,6 +2,7 @@
 
 import pandas as pd
 import numpy as np
+from sklearn import svm
 
 class DemoInterface(object):
     """docstring for DemoInterface"""
@@ -33,15 +34,33 @@ class DemoInterface(object):
             print("Column code : {0} \tColumn Name : {1}".format(index, columns[index]))
     
     def set_features_and_labels(self):
-        max_labels = self.controller.get_max_labels()
-        print('Octo-Py needs the column code which it needs to predict. \
-            Please enter any {0} the prediction column from the above'.format(max_labels))
-        label_codes = [2]
-        self.controller.set_features_and_labels(label_codes)
+        max_feautures = len(self.controller.get_columns()) - 1
+        max_labels = 1
+        delimitter = self.controller.get_delimmiter()
+        
+        statement = 'Octo-Py needs the column code which it needs to predict. \
+            Please enter any {0} code from the above:\n'.format(max_labels)
+        #print(statement)
+        label_codes = int(input(statement))
+        
+        statement = 'Octo-Py needs the column codes which will be its inputs.\
+            Please enter equal to or less than {0}  codes from the above separated with {1}\
+            OR\n enter -1 to select all columns except your output prediction label:\n'.format(max_feautures,delimitter)
+        #print(statement)
+        #feature_codes_str = '-1'
+        feature_codes_str = input(statement)
+        
+        self.controller.set_features_and_labels(feature_codes_str, label_codes)
 
     def get_features_and_labels(self):
         print('\n(inputs, outputs) for Octo-Py are:')
         print(self.controller.get_features_and_labels())
+
+    def get_model_ids(self):
+        print(self.controller.get_model_ids())
+
+    def model(self):
+        self.controller.model()
 
 ###################################################################################################
 
@@ -63,12 +82,21 @@ class Controller(object):
 
     def get_max_labels(self):
         return self.service.get_max_labels()
+        
+    def get_max_features(self):
+        return self.service.get_max_features()
 
-    def set_features_and_labels(self, label_codes):
-        self.service.set_features_and_labels(label_codes)
+    def get_delimmiter(self):
+        return self.service.get_delimmiter()
+
+    def set_features_and_labels(self, feature_code_str, label_codes):
+        self.service.set_features_and_labels(feature_code_str, label_codes)
 
     def get_features_and_labels(self):
         return self.service.get_features_and_labels()
+
+    def get_model_ids(self):
+        self.service.get_model_ids()
 
 ###################################################################################################
 
@@ -84,7 +112,9 @@ class Service(object):
         self.df = None
         self.features = None
         self.labels = None
-        self.max_labels = 1
+        self.delimitter = ','
+        self.model = None
+        self.model_ids = ['SVC','LinearSVC']
 
     def set_datagatherer(self, datagatherer):
         self.datagatherer = datagatherer
@@ -107,17 +137,37 @@ class Service(object):
     def get_max_labels(self):
         return self.max_labels
 
-    def set_features_and_labels(self, label_codes):
-        if len(label_codes) <= self.max_labels:
+    def get_delimmiter(self):
+        return self.delimitter;
+
+    def fetch_all_features(str):
+        return len(str) == 1
+
+    def set_features_and_labels(self, feature_codes_str, label_codes):
+        feature_codes = []
+        if fetch_all_features(feature_codes_str):
             column_codes = [i for i in range(len(self.df.columns.values))]
-            feature_codes = set(column_codes).difference(set(label_codes))
-            self.features = [self.df.columns.values[index] for index in feature_codes]
-            self.labels = [self.df.columns.values[index] for index in label_codes]
+            feature_codes = set(column_codes).difference(set([label_codes]))
+        else:
+            feature_codes = map(int, feature_codes_str.split(self,delimitter))
+
+        self.features = [self.df.columns.values[index] for index in feature_codes]
+        self.labels = self.df.columns.values[label_codes]
     
     def get_features_and_labels(self):
         return self.features,self.labels
-                            
-        
+    
+    def get_model_ids(self):
+        return self.model_ids
+
+    def set_model(self, model_id = 'SVC'):
+        self.model = context[model_id]
+        return self.model.get_configure_params()
+
+    def train(self, train_split = .8):
+        self.model = model.fit(self.df, self.features, self.labels, train_split)
+
+
 ###################################################################################################
 
 class DataGatherer(object):
@@ -155,6 +205,21 @@ class Model(object):
         super(Model, self).__init__()
         self.arg = arg
 
+class SVC_Model(Model):
+    """docstring for SVC_Model"""
+    def __init__(self, arg):
+        super(Model, self).__init__()
+        self.arg = arg
+        self.config_params = {'kernel':['linear','radial bias','polynomial'],
+        'linear': svm.LinearSVC(), 'radial bias': svm.SVC()}
+
+    def fit(self, df, features, labels, train_split=0.8, model='linear'):
+        X = np.array(df[features])
+        y = np.array(df[labels])
+        X_train, X_test, y_train, y_test = cross_validation.train_test_split(X, y, test_size= 1 - train_split)
+        clf = self.config_params[model]
+        clf.fit(X,y)
+        
 ###################################################################################################
 
 
@@ -167,6 +232,7 @@ def init_dependencies():
     analyser = Analyser(None)
     visualizer = Visualizer(None)
     model = Model(None)
+    svc_model = SVC_Model(model)
 
     interface.set_controller(controller)
     controller.set_service(service)
@@ -182,6 +248,7 @@ def init_dependencies():
     context['analyser'] = analyser
     context['visualizer'] = visualizer
     context['model'] = model
+    context['SVC'] = svc_model
 
     return context
 
@@ -206,3 +273,4 @@ if __name__ == '__main__':
     interface.get_columns()
     interface.set_features_and_labels()
     interface.get_features_and_labels()
+    #interface.get_model_ids()
