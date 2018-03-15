@@ -2,7 +2,7 @@
 
 import pandas as pd
 import numpy as np
-from sklearn import svm
+from sklearn import svm, preprocessing, cross_validation
 
 class DemoInterface(object):
     """docstring for DemoInterface"""
@@ -59,8 +59,8 @@ class DemoInterface(object):
     def get_model_ids(self):
         print(self.controller.get_model_ids())
 
-    def model(self):
-        self.controller.model()
+    def train(self, train_split):
+        self.controller.train(train_split)
 
 ###################################################################################################
 
@@ -97,6 +97,9 @@ class Controller(object):
 
     def get_model_ids(self):
         self.service.get_model_ids()
+
+    def train(self, train_split):
+        self.service.train(train_split)
 
 ###################################################################################################
 
@@ -140,16 +143,16 @@ class Service(object):
     def get_delimmiter(self):
         return self.delimitter;
 
-    def fetch_all_features(str):
-        return len(str) == 1
+    def fetch_all_features(self, str):
+        return str == '-1'
 
     def set_features_and_labels(self, feature_codes_str, label_codes):
         feature_codes = []
-        if fetch_all_features(feature_codes_str):
+        if self.fetch_all_features(feature_codes_str):
             column_codes = [i for i in range(len(self.df.columns.values))]
             feature_codes = set(column_codes).difference(set([label_codes]))
         else:
-            feature_codes = map(int, feature_codes_str.split(self,delimitter))
+            feature_codes = map(int, feature_codes_str.split(self.delimitter))
 
         self.features = [self.df.columns.values[index] for index in feature_codes]
         self.labels = self.df.columns.values[label_codes]
@@ -160,12 +163,12 @@ class Service(object):
     def get_model_ids(self):
         return self.model_ids
 
-    def set_model(self, model_id = 'SVC'):
-        self.model = context[model_id]
-        return self.model.get_configure_params()
+    def set_model(self, model, model_id = 'SVC'):
+        self.model = model
+        #return self.model.get_configure_params()
 
-    def train(self, train_split = .8):
-        self.model = model.fit(self.df, self.features, self.labels, train_split)
+    def train(self, train_split):
+        self.model.fit(self.df, self.features, self.labels, train_split)
 
 
 ###################################################################################################
@@ -204,21 +207,32 @@ class Model(object):
     def __init__(self, arg):
         super(Model, self).__init__()
         self.arg = arg
+        self.clf = None
+    
+    def fit(self, df, clf, features, labels, train_split=0.8):
+        X = np.array(df[features])
+        y = np.array(df[labels])
+        X_train, X_test, y_train, y_test = cross_validation.train_test_split(X, y, test_size= round(1 - train_split,2))
+        clf.fit(X,y)
+        return clf
 
 class SVC_Model(Model):
     """docstring for SVC_Model"""
     def __init__(self, arg):
         super(Model, self).__init__()
         self.arg = arg
-        self.config_params = {'kernel':['linear','radial bias','polynomial'],
-        'linear': svm.LinearSVC(), 'radial bias': svm.SVC()}
+        self.model_configs = []
+        self.algorithm = svm.SVC()
 
-    def fit(self, df, features, labels, train_split=0.8, model='linear'):
-        X = np.array(df[features])
-        y = np.array(df[labels])
-        X_train, X_test, y_train, y_test = cross_validation.train_test_split(X, y, test_size= 1 - train_split)
-        clf = self.config_params[model]
-        clf.fit(X,y)
+    def set_model_config(self, model_config):
+        self.model_config = model_config
+
+    def get_model_config(self):
+        return self.model_config
+
+    def fit(self, df, features, labels, train_split):
+        self.algorithm = super(Model, self).fit(df, self.algorithm, features, labels, train_split)
+    
         
 ###################################################################################################
 
@@ -237,9 +251,9 @@ def init_dependencies():
     interface.set_controller(controller)
     controller.set_service(service)
     service.set_datagatherer(datagatherer)
-    #service.set_analyser(analyser)
-    #service.set_visualizer(visualizer)
-    #service.set_model(model)
+    service.set_analyser(analyser)
+    service.set_visualizer(visualizer)
+    service.set_model(model)
 
     context['interface'] = interface
     context['controller'] = controller
@@ -248,8 +262,7 @@ def init_dependencies():
     context['analyser'] = analyser
     context['visualizer'] = visualizer
     context['model'] = model
-    context['SVC'] = svc_model
-
+    context['SVC_model'] = svc_model
     return context
 
 
@@ -273,4 +286,5 @@ if __name__ == '__main__':
     interface.get_columns()
     interface.set_features_and_labels()
     interface.get_features_and_labels()
-    #interface.get_model_ids()
+    interface.get_model_ids()
+    interface.train(0.8)

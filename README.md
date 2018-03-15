@@ -23,5 +23,7 @@ Generic platform for Prediction using basic machine learning models
 ## Algorithms supported
 - Support Vector Machine
 
+## TODO
+- NameError: name 'fetch_all_features' is not defined :: currently converted to self.method_name(). Need to learn about static methods in Python Class	
 
 [logo]: https://raw.githubusercontent.com/ZNevzz/ZNevzz.github.io/master/Octo-Py.png
