@@ -128,8 +128,8 @@ class Service(object):
     def set_visualizer(self, visualizer):
         self.visualizer = visualizer
 
-    def set_model(self, model):
-        self.model = model
+#    def set_model(self, model):
+#        self.model = model
 
     def load_data(self, path):
         self.df = self.datagatherer.read(path)
@@ -142,8 +142,9 @@ class Service(object):
 
     def get_delimmiter(self):
         return self.delimitter;
-
+    
     def fetch_all_features(self, str):
+        ''' TODO '''
         return str == '-1'
 
     def set_features_and_labels(self, feature_codes_str, label_codes):
@@ -163,8 +164,9 @@ class Service(object):
     def get_model_ids(self):
         return self.model_ids
 
-    def set_model(self, model, model_id = 'SVC'):
-        self.model = model
+    def set_model(self, model, model_id = 'SVC_model'):
+        ''' TODO '''
+        self.model = context[model_id]
         #return self.model.get_configure_params()
 
     def train(self, train_split):
@@ -211,9 +213,14 @@ class Model(object):
     
     def fit(self, df, clf, features, labels, train_split=0.8):
         X = np.array(df[features])
+        ''' TODO '''
         y = np.array(df[labels])
+        y = y.astype(str(df[labels].dtype))
+        #y = np.array(df[labels], dtype = df[labels].dtype)
+        
         X_train, X_test, y_train, y_test = cross_validation.train_test_split(X, y, test_size= round(1 - train_split,2))
-        clf.fit(X,y)
+        
+        clf.fit(X_train, y_train)
         return clf
 
 class SVC_Model(Model):
@@ -222,7 +229,25 @@ class SVC_Model(Model):
         super(Model, self).__init__()
         self.arg = arg
         self.model_configs = []
-        self.algorithm = svm.SVC()
+        ''' TODO '''
+        self.algorithm = svm.SVR()
+
+    def set_model_config(self, model_config):
+        self.model_config = model_config
+
+    def get_model_config(self):
+        return self.model_config
+
+    def fit(self, df, features, labels, train_split):   
+        self.algorithm = context['model'].fit(df, self.algorithm, features, labels, train_split)
+
+class SVR_Model(Model):
+    """docstring for SVR_Model"""
+    def __init__(self, arg):
+        super(Model, self).__init__()
+        self.arg = arg
+        self.model_configs = []
+        self.algorithm = svm.SVR()
 
     def set_model_config(self, model_config):
         self.model_config = model_config
@@ -231,9 +256,10 @@ class SVC_Model(Model):
         return self.model_config
 
     def fit(self, df, features, labels, train_split):
-        self.algorithm = super(Model, self).fit(df, self.algorithm, features, labels, train_split)
-    
         
+        self.algorithm = context['model'].fit(df, self.algorithm, features, labels, train_split)
+        
+     
 ###################################################################################################
 
 
@@ -247,6 +273,9 @@ def init_dependencies():
     visualizer = Visualizer(None)
     model = Model(None)
     svc_model = SVC_Model(model)
+    svr_model = SVR_Model(model)
+
+   
 
     interface.set_controller(controller)
     controller.set_service(service)
@@ -254,15 +283,19 @@ def init_dependencies():
     service.set_analyser(analyser)
     service.set_visualizer(visualizer)
     service.set_model(model)
-
-    context['interface'] = interface
-    context['controller'] = controller
-    context['service'] = service
+    
     context['datagatherer'] = datagatherer
     context['analyser'] = analyser
     context['visualizer'] = visualizer
     context['model'] = model
     context['SVC_model'] = svc_model
+    context['SVR_model'] = svr_model
+
+    context['interface'] = interface
+    context['controller'] = controller
+    context['service'] = service
+
+    
     return context
 
 
@@ -288,3 +321,9 @@ if __name__ == '__main__':
     interface.get_features_and_labels()
     interface.get_model_ids()
     interface.train(0.8)
+    
+'''
+extras
+
+#self.algorithm = super(Model, self).fit(df, self.algorithm, features, labels, train_split)
+'''
