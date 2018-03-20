@@ -2,7 +2,21 @@
 
 import pandas as pd
 import numpy as np
-from sklearn import svm, preprocessing, cross_validation
+from sklearn import svm, model_selection, linear_model
+from sklearn.utils import shuffle
+from sklearn.metrics import explained_variance_score 
+
+class WebInterface(object):
+    """docstring for WebInterface"""
+    def __init__(self, arg):
+        super(WebInterface, self).__init__()
+        self.arg = arg
+        self.arg = arg
+        self.option_selected_hash = -1
+        self.modes = ['regression']
+        self.controller = None
+
+
 
 class DemoInterface(object):
     """docstring for DemoInterface"""
@@ -60,7 +74,9 @@ class DemoInterface(object):
         print(self.controller.get_model_ids())
 
     def train(self, train_split):
-        self.controller.train(train_split)
+        train_score = self.controller.train(train_split)
+        statement = 'Training Accuracy of model is {0}%'.format(train_score*100)
+        print(statement)
 
 ###################################################################################################
 
@@ -96,10 +112,10 @@ class Controller(object):
         return self.service.get_features_and_labels()
 
     def get_model_ids(self):
-        self.service.get_model_ids()
-
+        return context['model_ids']
+    
     def train(self, train_split):
-        self.service.train(train_split)
+        return self.service.train(train_split)
 
 ###################################################################################################
 
@@ -117,8 +133,8 @@ class Service(object):
         self.labels = None
         self.delimitter = ','
         self.model = None
-        self.model_ids = ['SVC','LinearSVC']
-
+        self.y_ = None
+        
     def set_datagatherer(self, datagatherer):
         self.datagatherer = datagatherer
 
@@ -127,9 +143,6 @@ class Service(object):
 
     def set_visualizer(self, visualizer):
         self.visualizer = visualizer
-
-#    def set_model(self, model):
-#        self.model = model
 
     def load_data(self, path):
         self.df = self.datagatherer.read(path)
@@ -160,18 +173,15 @@ class Service(object):
     
     def get_features_and_labels(self):
         return self.features,self.labels
-    
-    def get_model_ids(self):
-        return self.model_ids
 
-    def set_model(self, model, model_id = 'SVC_model'):
+    def set_model(self, model):
         ''' TODO '''
-        self.model = context[model_id]
-        #return self.model.get_configure_params()
+        self.model = model        
 
     def train(self, train_split):
-        self.model.fit(self.df, self.features, self.labels, train_split)
-
+        self.y_ = self.model.fit(self.df, self.features, self.labels, train_split)
+        metrics = self.analyser.get_model_metrics(self.y_, 'regression')
+        return metrics
 
 ###################################################################################################
 
@@ -194,6 +204,12 @@ class Analyser(object):
     def get_columns(self, df):
         return self.df.columns.values
         
+    def get_model_metrics(self, y_, mode):
+        metrics = {}
+        y_true, y_pred = y_[0], y_[1]
+        if mode == 'regression':
+            metrics['Explained Variance'] = explained_variance_score(y_true, y_pred)
+        return metrics
 ###################################################################################################
 
 class Visualizer(object):
@@ -214,14 +230,15 @@ class Model(object):
     def fit(self, df, clf, features, labels, train_split=0.8):
         X = np.array(df[features])
         ''' TODO '''
-        y = np.array(df[labels])
-        y = y.astype(str(df[labels].dtype))
-        #y = np.array(df[labels], dtype = df[labels].dtype)
+        y = np.array(df[labels], dtype = df[labels].dtype)
         
-        X_train, X_test, y_train, y_test = cross_validation.train_test_split(X, y, test_size= round(1 - train_split,2))
+        X, y = shuffle(X, y, random_state=1)
+        X_train, X_test, y_train, y_test = model_selection.train_test_split(X, y, test_size= round(1 - train_split,2))
         
         clf.fit(X_train, y_train)
-        return clf
+        y_true, y_pred = y_test, clf.predict(X_test)
+        
+        return clf, (y_true, y_pred)
 
 class SVC_Model(Model):
     """docstring for SVC_Model"""
@@ -230,7 +247,8 @@ class SVC_Model(Model):
         self.arg = arg
         self.model_configs = []
         ''' TODO '''
-        self.algorithm = svm.SVR()
+#       self.algorithm = svm.SVR()
+        self.algorithm = linear_model.LinearRegression()
 
     def set_model_config(self, model_config):
         self.model_config = model_config
@@ -239,7 +257,8 @@ class SVC_Model(Model):
         return self.model_config
 
     def fit(self, df, features, labels, train_split):   
-        self.algorithm = context['model'].fit(df, self.algorithm, features, labels, train_split)
+        self.algorithm, y_ = context['model'].fit(df, self.algorithm, features, labels, train_split)
+        return y_
 
 class SVR_Model(Model):
     """docstring for SVR_Model"""
@@ -255,9 +274,8 @@ class SVR_Model(Model):
     def get_model_config(self):
         return self.model_config
 
-    def fit(self, df, features, labels, train_split):
-        
-        self.algorithm = context['model'].fit(df, self.algorithm, features, labels, train_split)
+    def fit(self, df, features, labels, train_split):    
+        self.algorithm, train_score = context['model'].fit(df, self.algorithm, features, labels, train_split)
         
      
 ###################################################################################################
@@ -265,6 +283,7 @@ class SVR_Model(Model):
 
 def init_dependencies():
     context = {}
+    model_ids = ['SVC_model','SVR_model']
     interface = DemoInterface(None)
     controller = Controller(None)
     service = Service(None)
@@ -274,16 +293,8 @@ def init_dependencies():
     model = Model(None)
     svc_model = SVC_Model(model)
     svr_model = SVR_Model(model)
-
-   
-
-    interface.set_controller(controller)
-    controller.set_service(service)
-    service.set_datagatherer(datagatherer)
-    service.set_analyser(analyser)
-    service.set_visualizer(visualizer)
-    service.set_model(model)
     
+    context['model_ids'] = model_ids
     context['datagatherer'] = datagatherer
     context['analyser'] = analyser
     context['visualizer'] = visualizer
@@ -295,7 +306,14 @@ def init_dependencies():
     context['controller'] = controller
     context['service'] = service
 
+    interface.set_controller(context['controller'])
+    controller.set_service(context['service'])
+    service.set_datagatherer(context['datagatherer'])
+    service.set_analyser(context['analyser'])
+    service.set_visualizer(context['visualizer'])
     
+    '''TODO - Will be taken as user input'''
+    service.set_model(context['SVR_model'])
     return context
 
 
