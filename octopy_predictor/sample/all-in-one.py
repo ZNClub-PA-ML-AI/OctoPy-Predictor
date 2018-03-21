@@ -4,18 +4,73 @@ import pandas as pd
 import numpy as np
 from sklearn import svm, model_selection, linear_model
 from sklearn.utils import shuffle
-from sklearn.metrics import explained_variance_score 
+from sklearn.metrics import explained_variance_score
+
+
 
 class WebInterface(object):
-    """docstring for WebInterface"""
+    """docstring for DemoInterface"""
     def __init__(self, arg):
         super(WebInterface, self).__init__()
         self.arg = arg
-        self.arg = arg
         self.option_selected_hash = -1
-        self.modes = ['regression']
         self.controller = None
 
+    def set_controller(self, controller):
+        self.controller = controller
+    
+    
+    def greet(self, username):
+        print('Welcome {0}. I am Octo-Py: the genius predictor'.format(username))
+
+    def get_input_options(self):
+        input_options = ["EXCEL from local","JSON from url","CSV from url"]
+        print('Input options available are:\n')
+        #print((i,input_options[i]) for i in range(input_options))
+        for index in range(len(input_options)):
+            print('Press {0} for {1}'.format(index+1, input_options[index]))
+
+    def load_data(self, path):
+        self.controller.load_data(path)
+
+    def get_columns(self):
+        columns = self.controller.get_columns()
+        for index in range(len(columns)):
+            print("Column code : {0} \tColumn Name : {1}".format(index, columns[index]))
+    
+    def set_features_and_labels(self):
+        max_feautures = len(self.controller.get_columns()) - 1
+        max_labels = 1
+        delimitter = self.controller.get_delimmiter()
+        
+        statement = 'Octo-Py needs the column code which it needs to predict. \
+            Please enter any {0} code from the above:\n'.format(max_labels)
+        #print(statement)
+        label_codes = int(input(statement))
+        
+        statement = 'Octo-Py needs the column codes which will be its inputs.\
+            Please enter equal to or less than {0}  codes from the above separated with {1}\
+            OR\n enter -1 to select all columns except your output prediction label:\n'.format(max_feautures,delimitter)
+        #print(statement)
+        #feature_codes_str = '-1'
+        feature_codes_str = input(statement)
+        
+        self.controller.set_features_and_labels(feature_codes_str, label_codes)
+
+    def get_features_and_labels(self):
+        print('\n(inputs, outputs) for Octo-Py are:')
+        print(self.controller.get_features_and_labels())
+
+    def get_model_ids(self):
+        print(self.controller.get_model_ids())
+
+    def train(self, train_split):
+        train_score = self.controller.train(train_split)
+        #print(train_score, type(train_score))
+        
+        for metric_name in train_score:
+            statement = '{0} of model is {1}%'.format(metric_name, train_score[metric_name]*100)
+        print(statement)
 
 
 class DemoInterface(object):
@@ -75,7 +130,10 @@ class DemoInterface(object):
 
     def train(self, train_split):
         train_score = self.controller.train(train_split)
-        statement = 'Training Accuracy of model is {0}%'.format(train_score*100)
+        #print(train_score, type(train_score))
+        
+        for metric_name in train_score:
+            statement = '{0} of model is {1}%'.format(metric_name, train_score[metric_name]*100)
         print(statement)
 
 ###################################################################################################
@@ -146,6 +204,7 @@ class Service(object):
 
     def load_data(self, path):
         self.df = self.datagatherer.read(path)
+        self.df = self.df[0:100]
 
     def get_columns(self):
         return np.asanyarray(self.df.columns.values)
@@ -234,8 +293,9 @@ class Model(object):
         
         X, y = shuffle(X, y, random_state=1)
         X_train, X_test, y_train, y_test = model_selection.train_test_split(X, y, test_size= round(1 - train_split,2))
-        
+        print('before fit')
         clf.fit(X_train, y_train)
+        print('before predict')
         y_true, y_pred = y_test, clf.predict(X_test)
         
         return clf, (y_true, y_pred)
@@ -248,7 +308,6 @@ class SVC_Model(Model):
         self.model_configs = []
         ''' TODO '''
 #       self.algorithm = svm.SVR()
-        self.algorithm = linear_model.LinearRegression()
 
     def set_model_config(self, model_config):
         self.model_config = model_config
@@ -258,6 +317,7 @@ class SVC_Model(Model):
 
     def fit(self, df, features, labels, train_split):   
         self.algorithm, y_ = context['model'].fit(df, self.algorithm, features, labels, train_split)
+        print("Y_: ",y_)
         return y_
 
 class SVR_Model(Model):
@@ -266,7 +326,9 @@ class SVR_Model(Model):
         super(Model, self).__init__()
         self.arg = arg
         self.model_configs = []
-        self.algorithm = svm.SVR()
+#        self.algorithm = svm.SVR()
+        self.algorithm = linear_model.LinearRegression()
+        
 
     def set_model_config(self, model_config):
         self.model_config = model_config
@@ -275,7 +337,8 @@ class SVR_Model(Model):
         return self.model_config
 
     def fit(self, df, features, labels, train_split):    
-        self.algorithm, train_score = context['model'].fit(df, self.algorithm, features, labels, train_split)
+        self.algorithm, y_ = context['model'].fit(df, self.algorithm, features, labels, train_split)
+        return y_
         
      
 ###################################################################################################
