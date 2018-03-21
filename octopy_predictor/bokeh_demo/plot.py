@@ -1,4 +1,6 @@
 from bokeh.plotting import figure, output_file, show
+from bokeh.resources import CDN
+from bokeh.embed import file_html
 
 # prepare some data
 x = [1, 2, 3, 4, 5]
@@ -16,5 +18,8 @@ p.line(x, y, legend="Temp.", line_width=2)
 # show the results
 #show(p)
 
-# create html template
-file_html
+# create html template binary
+html = file_html(p, CDN, "my plot")
+
+with open('output.html', 'a') as f:
+    f.write(html)
