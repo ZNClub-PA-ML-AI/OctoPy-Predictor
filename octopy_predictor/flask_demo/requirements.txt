@@ -1,7 +1,0 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Mar 21 10:31:42 2018
-
-@author: Augus
-"""
-
