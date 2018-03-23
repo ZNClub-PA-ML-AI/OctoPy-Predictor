@@ -5,175 +5,214 @@ import numpy as np
 from sklearn import svm, model_selection, linear_model
 from sklearn.utils import shuffle
 from sklearn.metrics import explained_variance_score
+from flask import Flask, request
 
 
-
-class WebInterface(object):
-    """docstring for DemoInterface"""
+class Interface(object):
+    """docstring for CommandShellInterface"""
     def __init__(self, arg):
-        super(WebInterface, self).__init__()
+        super(Interface, self).__init__()
         self.arg = arg
         self.option_selected_hash = -1
         self.controller = None
 
     def set_controller(self, controller):
         self.controller = controller
-    
-    
+        print("controller set")
+
     def greet(self, username):
-        print('Welcome {0}. I am Octo-Py: the genius predictor'.format(username))
+        return 'Welcome {0}. I am Octo-Py: the genius predictor'.format(username)
 
     def get_input_options(self):
-        input_options = ["EXCEL from local","JSON from url","CSV from url"]
-        print('Input options available are:\n')
-        #print((i,input_options[i]) for i in range(input_options))
-        for index in range(len(input_options)):
-            print('Press {0} for {1}'.format(index+1, input_options[index]))
-
+        return ["EXCEL from local","JSON from url","CSV from url"]
+        
     def load_data(self, path):
         self.controller.load_data(path)
 
     def get_columns(self):
-        columns = self.controller.get_columns()
-        for index in range(len(columns)):
-            print("Column code : {0} \tColumn Name : {1}".format(index, columns[index]))
-    
-    def set_features_and_labels(self):
+        return self.controller.get_columns()        
+
+    def get_contraints_for_set_features_and_labels(self):
         max_feautures = len(self.controller.get_columns()) - 1
         max_labels = 1
         delimitter = self.controller.get_delimmiter()
+        return max_feautures, max_labels, delimitter
         
-        statement = 'Octo-Py needs the column code which it needs to predict. \
-            Please enter any {0} code from the above:\n'.format(max_labels)
-        #print(statement)
-        label_codes = int(input(statement))
-        
-        statement = 'Octo-Py needs the column codes which will be its inputs.\
-            Please enter equal to or less than {0}  codes from the above separated with {1}\
-            OR\n enter -1 to select all columns except your output prediction label:\n'.format(max_feautures,delimitter)
-        #print(statement)
-        #feature_codes_str = '-1'
-        feature_codes_str = input(statement)
-        
+    
+    def set_features_and_labels(self, feature_codes_str, label_codes):            
         self.controller.set_features_and_labels(feature_codes_str, label_codes)
 
-    def get_features_and_labels(self):
-        print('\n(inputs, outputs) for Octo-Py are:')
-        print(self.controller.get_features_and_labels())
+    def get_features_and_labels(self):        
+        return self.controller.get_features_and_labels()
 
     def get_model_ids(self):
         print(self.controller.get_model_ids())
 
     def train(self, train_split):
-        train_score = self.controller.train(train_split)
-        #print(train_score, type(train_score))
-        
-        for metric_name in train_score:
-            statement = '{0} of model is {1}%'.format(metric_name, train_score[metric_name]*100)
-        print(statement)
-
-
-class DemoInterface(object):
-    """docstring for DemoInterface"""
-    def __init__(self, arg):
-        super(DemoInterface, self).__init__()
-        self.arg = arg
-        self.option_selected_hash = -1
-        self.controller = None
-
-    def set_controller(self, controller):
-        self.controller = controller
-
-    def greet(self, username):
-        print('Welcome {0}. I am Octo-Py: the genius predictor'.format(username))
-
-    def get_input_options(self):
-        input_options = ["EXCEL from local","JSON from url","CSV from url"]
-        print('Input options available are:\n')
-        #print((i,input_options[i]) for i in range(input_options))
-        for index in range(len(input_options)):
-            print('Press {0} for {1}'.format(index+1, input_options[index]))
-
-    def load_data(self, path):
-        self.controller.load_data(path)
-
-    def get_columns(self):
-        columns = self.controller.get_columns()
-        for index in range(len(columns)):
-            print("Column code : {0} \tColumn Name : {1}".format(index, columns[index]))
-    
-    def set_features_and_labels(self):
-        max_feautures = len(self.controller.get_columns()) - 1
-        max_labels = 1
-        delimitter = self.controller.get_delimmiter()
-        
-        statement = 'Octo-Py needs the column code which it needs to predict. \
-            Please enter any {0} code from the above:\n'.format(max_labels)
-        #print(statement)
-        label_codes = int(input(statement))
-        
-        statement = 'Octo-Py needs the column codes which will be its inputs.\
-            Please enter equal to or less than {0}  codes from the above separated with {1}\
-            OR\n enter -1 to select all columns except your output prediction label:\n'.format(max_feautures,delimitter)
-        #print(statement)
-        #feature_codes_str = '-1'
-        feature_codes_str = input(statement)
-        
-        self.controller.set_features_and_labels(feature_codes_str, label_codes)
-
-    def get_features_and_labels(self):
-        print('\n(inputs, outputs) for Octo-Py are:')
-        print(self.controller.get_features_and_labels())
-
-    def get_model_ids(self):
-        print(self.controller.get_model_ids())
-
-    def train(self, train_split):
-        train_score = self.controller.train(train_split)
-        #print(train_score, type(train_score))
-        
-        for metric_name in train_score:
-            statement = '{0} of model is {1}%'.format(metric_name, train_score[metric_name]*100)
-        print(statement)
+        return self.controller.train(train_split)
 
 ###################################################################################################
+        
 
-class Controller(object):
-    """docstring for Controller"""
+class WebInterface(Interface):
+    """docstring for WebInterface"""
     def __init__(self, arg):
-        super(Controller, self).__init__()
-        self.arg = arg
-        self.service = None
+        super(Interface, self).__init__()        
 
-    def set_service(self, service):
-        self.service = service
+    def set_controller(self, controller):
+        super(WebInterface, self).set_controller(controller)
+    
+    
+    # def greet(self, username):
+    #     print('Welcome {0}. I am Octo-Py: the genius predictor'.format(username))
+
+    # def get_input_options(self):
+    #     input_options = ["EXCEL from local","JSON from url","CSV from url"]
+    #     print('Input options available are:\n')
+    #     #print((i,input_options[i]) for i in range(input_options))
+    #     for index in range(len(input_options)):
+    #         print('Press {0} for {1}'.format(index+1, input_options[index]))
+
+    # def load_data(self, path):
+    #     self.controller.load_data(path)
+
+    # def get_columns(self):
+    #     columns = self.controller.get_columns()
+    #     for index in range(len(columns)):
+    #         print("Column code : {0} \tColumn Name : {1}".format(index, columns[index]))
+    
+    # def set_features_and_labels(self):
+    #     max_feautures = len(self.controller.get_columns()) - 1
+    #     max_labels = 1
+    #     delimitter = self.controller.get_delimmiter()
+        
+    #     statement = 'Octo-Py needs the column code which it needs to predict. \
+    #         Please enter any {0} code from the above:\n'.format(max_labels)
+    #     #print(statement)
+    #     label_codes = int(input(statement))
+        
+    #     statement = 'Octo-Py needs the column codes which will be its inputs.\
+    #         Please enter equal to or less than {0}  codes from the above separated with {1}\
+    #         OR\n enter -1 to select all columns except your output prediction label:\n'.format(max_feautures,delimitter)
+    #     #print(statement)
+    #     #feature_codes_str = '-1'
+    #     feature_codes_str = input(statement)
+        
+    #     self.controller.set_features_and_labels(feature_codes_str, label_codes)
+
+    # def get_features_and_labels(self):
+    #     print('\n(inputs, outputs) for Octo-Py are:')
+    #     print(self.controller.get_features_and_labels())
+
+    # def get_model_ids(self):
+    #     print(self.controller.get_model_ids())
+
+    # def train(self, train_split):
+    #     train_score = self.controller.train(train_split)
+    #     #print(train_score, type(train_score))
+        
+    #     for metric_name in train_score:
+    #         statement = '{0} of model is {1}%'.format(metric_name, train_score[metric_name]*100)
+    #     print(statement)
+
+
+class CommandShellInterface(Interface):
+    """docstring for CommandShellInterface"""
+    def __init__(self, arg):
+        super(Interface, self).__init__()
+
+    def set_controller(self, controller):
+        super(CommandShellInterface, self).set_controller(controller)
+
+    def greet(self, username):
+        statement = super(CommandShellInterface, self).greet(username)
+        print(statement)
+
+    def get_input_options(self):
+        input_options = super(CommandShellInterface, self).get_input_options() 
+        print('Input options available are:\n')
+        #print((i,input_options[i]) for i in range(input_options))
+        for index in range(len(input_options)):
+            print('Press {0} for {1}'.format(index+1, input_options[index]))
 
     def load_data(self, path):
-        self.service.load_data(path)
+        super(CommandShellInterface, self).load_data(path)
 
     def get_columns(self):
-        return self.service.get_columns()
-
-    def get_max_labels(self):
-        return self.service.get_max_labels()
+        columns = super(CommandShellInterface, self).get_columns()
+        for index in range(len(columns)):
+            print("Column code : {0} \tColumn Name : {1}".format(index, columns[index]))
+    
+    def set_features_and_labels(self):
+        max_feautures, max_labels, delimitter = super(CommandShellInterface, self).get_contraints_for_set_features_and_labels()
         
-    def get_max_features(self):
-        return self.service.get_max_features()
-
-    def get_delimmiter(self):
-        return self.service.get_delimmiter()
-
-    def set_features_and_labels(self, feature_code_str, label_codes):
-        self.service.set_features_and_labels(feature_code_str, label_codes)
+        statement = 'Octo-Py needs the column code which it needs to predict. \
+            Please enter any {0} code from the above:\n'.format(max_labels)
+        #print(statement)
+        label_codes = int(input(statement))
+        
+        statement = 'Octo-Py needs the column codes which will be its inputs.\
+            Please enter equal to or less than {0}  codes from the above separated with {1}\
+            OR\n enter -1 to select all columns except your output prediction label:\n'.format(max_feautures,delimitter)
+        #print(statement)
+        #feature_codes_str = '-1'
+        feature_codes_str = input(statement)
+        
+        super(CommandShellInterface, self).set_features_and_labels(feature_codes_str, label_codes)
 
     def get_features_and_labels(self):
-        return self.service.get_features_and_labels()
+        print('\n(inputs, outputs) for Octo-Py are:')
+        print(super(CommandShellInterface, self).get_features_and_labels())
 
     def get_model_ids(self):
-        return context['model_ids']
-    
+        print(super(CommandShellInterface, self).get_model_ids())
+
     def train(self, train_split):
-        return self.service.train(train_split)
+        train_score = super(CommandShellInterface, self).train(train_split)
+        #print(train_score, type(train_score))
+        
+        for metric_name in train_score:
+            statement = '{0} of model is {1}%'.format(metric_name, train_score[metric_name]*100)
+        print(statement)
+
+# ###################################################################################################
+
+class Controller(object):
+ """docstring for Controller"""
+ def __init__(self, arg):
+     super(Controller, self).__init__()
+     self.arg = arg
+     self.service = None
+
+ def set_service(self, service):
+     self.service = service
+
+ def load_data(self, path):
+     self.service.load_data(path)
+
+ def get_columns(self):
+     return self.service.get_columns()
+
+ def get_max_labels(self):
+     return self.service.get_max_labels()
+    
+ def get_max_features(self):
+     return self.service.get_max_features()
+
+ def get_delimmiter(self):
+     return self.service.get_delimmiter()
+
+ def set_features_and_labels(self, feature_code_str, label_codes):
+     self.service.set_features_and_labels(feature_code_str, label_codes)
+
+ def get_features_and_labels(self):
+     return self.service.get_features_and_labels()
+
+ def get_model_ids(self):
+     return context['model_ids']
+
+ def train(self, train_split):
+     return self.service.train(train_split)
 
 ###################################################################################################
 
@@ -347,7 +386,7 @@ class SVR_Model(Model):
 def init_dependencies():
     context = {}
     model_ids = ['SVC_model','SVR_model']
-    interface = DemoInterface(None)
+    command_shell_interface = CommandShellInterface(Interface)
     controller = Controller(None)
     service = Service(None)
     datagatherer = DataGatherer(None)
@@ -365,11 +404,11 @@ def init_dependencies():
     context['SVC_model'] = svc_model
     context['SVR_model'] = svr_model
 
-    context['interface'] = interface
+    context['CommandShellInterface'] = command_shell_interface
     context['controller'] = controller
     context['service'] = service
 
-    interface.set_controller(context['controller'])
+    command_shell_interface.set_controller(context['controller'])
     controller.set_service(context['service'])
     service.set_datagatherer(context['datagatherer'])
     service.set_analyser(context['analyser'])
@@ -381,15 +420,25 @@ def init_dependencies():
 
 
 if __name__ == '__main__':
-    username = "Nevil"
+
     context = init_dependencies()
-    #print(context)
 
-    interface = context['interface']
+    # app = Flask(__name__)
+    # app.run(port=9541)
 
-    interface.greet(username)
 
-    # interface.get_input_options()
+
+
+    # username = "Nevil"
+    
+    # #print(context)
+
+    # interface = context['interface']
+    interface = context['CommandShellInterface']
+
+    # interface.greet(username)
+
+    # # interface.get_input_options()
     # interface.option_selected_hash = input("Enter any 1 of the above options:")
     # print(interface.option_selected_hash)
     # print("You have selected Option {0} from the above options.".format(interface.option_selected_hash))
@@ -402,7 +451,36 @@ if __name__ == '__main__':
     interface.get_features_and_labels()
     interface.get_model_ids()
     interface.train(0.8)
-    
+ 
+
+
+ # REST endpoint
+
+
+
+
+#quotes = {1:'Beautiful is better than ugly.'}
+#
+#@app.route('/')
+#def hello_world():
+#    return 'Hello, Welcome to Flask demo!'
+#
+#@app.route('/quotes/<int:qoute_id>')
+#def get_quote_by(qoute_id):
+#    return quotes[qoute_id]
+#
+#@app.route('/quotes')
+#def get_all_quotes():
+#    return str(quotes)
+#
+##@app.route('/popular-quote-id/', methods=['GET,POST'])
+#@app.route('/popular-quote-id/')
+#def get_popular_quote_id():
+#    if request.method == 'POST':
+#        pass
+#    else:
+#        return str(1)
+
 '''
 extras
 
