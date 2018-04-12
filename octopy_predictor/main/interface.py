@@ -123,6 +123,8 @@ class CommandShellInterface(Interface):
             print('Press {0} for {1}'.format(index+1, input_options[index]))
 
     def load_data(self, path):
+        statement = 'Enter absolute file path:\n'
+        path = input(statement)
         super(CommandShellInterface, self).load_data(path)
 
     def get_columns(self):
