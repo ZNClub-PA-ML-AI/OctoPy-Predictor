@@ -25,5 +25,5 @@ def get_popular_quote_id():
 	else:
 		return str(1)
 
-# if __name__ == '__main__':
-#     app.run(port=8080)
+if __name__ == '__main__':
+    app.run(port=8080)
