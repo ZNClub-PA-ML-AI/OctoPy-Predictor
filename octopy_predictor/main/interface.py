@@ -19,6 +19,12 @@ class Interface(object):
     def load_data(self, path):
         self.controller.load_data(path)
 
+    def get_summary(self):
+        return self.controller.get_summary()
+
+    def get_column_data_types(self):
+        return self.controller.get_column_data_types()
+
     def get_columns(self):
         return self.controller.get_columns()        
 
@@ -124,10 +130,16 @@ class CommandShellInterface(Interface):
 
     def load_data(self, path):
         statement = 'Enter absolute file path:\n'
-        path = input(statement)
+        #path = input(statement)
         super(CommandShellInterface, self).load_data(path)
 
     def get_columns(self):
+        print("Column Summary:", end="\n")
+        for i in super(CommandShellInterface, self).get_column_data_types():
+            print(i)
+        
+        print(super(CommandShellInterface, self).get_summary(), end="\n\n")
+        
         columns = super(CommandShellInterface, self).get_columns()
         for index in range(len(columns)):
             print("Column code : {0} \tColumn Name : {1}".format(index, columns[index]))

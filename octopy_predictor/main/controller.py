@@ -18,6 +18,12 @@ class Controller(object):
  def load_data(self, path):
      self.service.load_data(path)
 
+ def get_summary(self):
+     return self.service.get_summary()
+
+ def get_column_data_types(self):
+     return self.service.get_column_data_types()
+
  def get_columns(self):
      return self.service.get_columns()
 

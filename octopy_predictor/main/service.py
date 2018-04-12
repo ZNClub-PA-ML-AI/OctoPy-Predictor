@@ -30,8 +30,14 @@ class Service(object):
         self.df = self.datagatherer.read(path)
         self.df = self.df[0:100]
 
+    def get_summary(self):
+        return self.analyser.get_summary(self.df)
+        
+    def get_column_data_types(self):
+        return self.analyser.get_column_data_types(self.df)
+
     def get_columns(self):
-        return np.asanyarray(self.df.columns.values)
+        return self.analyser.get_columns(self.df)
 
     def get_max_labels(self):
         return self.max_labels
