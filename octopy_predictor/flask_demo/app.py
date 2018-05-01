@@ -37,10 +37,25 @@ def get_all_quotes():
 
 @app.route('/quotes?responseAs=json')
 def get_all_quotes_as_json():
-	#return jsonify(quotes)
+	'''send response as json'''
 	js = jsonify(quotes)
-	resp = Response(js, status=200, mimetype='application/json')
+	#resp = Response(js, status=200, mimetype='application/json')
+	print(js, resp)
 	return resp
+
+@app.route('/quotes-by')
+def get_all_quotes_by_response_type():
+	'''query parameter'''
+	resp = quotes
+	print(request.args, resp, 'response' in request.args)
+	if 'response' in request.args:
+		if request.args['response'] == 'json':
+			resp = jsonify(quotes)
+		elif request.args['response'] == 'text':
+			resp = str(quotes)
+	print(request.args, type(resp))
+	return resp
+
 
 #@app.route('/popular-quote-id/', methods=['GET,POST'])
 @app.route('/popular-quote-id/')
