@@ -2,6 +2,7 @@
 
 from flask import Flask, request
 from flask import jsonify
+from flask import Response
 
 app = Flask(__name__)
 
@@ -24,8 +25,10 @@ def shutdown():
     shutdown_server()
     return 'Server shutting down...'
 
+
 @app.route('/quotes/<int:qoute_id>')
 def get_quote_by(qoute_id):
+	''' typecheck request parameter. Default is string '''
 	return quotes[qoute_id]
 
 @app.route('/quotes')
@@ -34,7 +37,10 @@ def get_all_quotes():
 
 @app.route('/quotes?responseAs=json')
 def get_all_quotes_as_json():
-	return jsonify(quotes)
+	#return jsonify(quotes)
+	js = jsonify(quotes)
+	resp = Response(js, status=200, mimetype='application/json')
+	return resp
 
 #@app.route('/popular-quote-id/', methods=['GET,POST'])
 @app.route('/popular-quote-id/')
