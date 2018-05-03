@@ -21,6 +21,7 @@ def init_dependencies():
     
     model_ids = ['SVC_model','SVR_model']
     command_shell_interface = CommandShellInterface(Interface)
+    web_interface = WebInterface(Interface)
     controller = Controller(None)
     service = Service(None)
     datagatherer = DataGatherer(None)
@@ -39,10 +40,12 @@ def init_dependencies():
     app_context['SVR_model'] = svr_model
 
     app_context['CommandShellInterface'] = command_shell_interface
+    app_context['WebInterface'] = web_interface
     app_context['controller'] = controller
     app_context['service'] = service
 
     command_shell_interface.set_controller(app_context['controller'])
+    web_interface.set_controller(app_context['controller'])
     controller.set_service(app_context['service'])
     controller.set_context(app_context)
     service.set_datagatherer(app_context['datagatherer'])

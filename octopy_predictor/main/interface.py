@@ -47,67 +47,9 @@ class Interface(object):
     def train(self, train_split):
         return self.controller.train(train_split)
 
-class WebInterface(Interface):
-    """docstring for WebInterface"""
-    def __init__(self, arg):
-        super(Interface, self).__init__()        
-
-    def set_controller(self, controller):
-        super(WebInterface, self).set_controller(controller)
-    
-    
-    # def greet(self, username):
-    #     print('Welcome {0}. I am Octo-Py: the genius predictor'.format(username))
-
-    # def get_input_options(self):
-    #     input_options = ["EXCEL from local","JSON from url","CSV from url"]
-    #     print('Input options available are:\n')
-    #     #print((i,input_options[i]) for i in range(input_options))
-    #     for index in range(len(input_options)):
-    #         print('Press {0} for {1}'.format(index+1, input_options[index]))
-
-    # def load_data(self, path):
-    #     self.controller.load_data(path)
-
-    # def get_columns(self):
-    #     columns = self.controller.get_columns()
-    #     for index in range(len(columns)):
-    #         print("Column code : {0} \tColumn Name : {1}".format(index, columns[index]))
-    
-    # def set_features_and_labels(self):
-    #     max_feautures = len(self.controller.get_columns()) - 1
-    #     max_labels = 1
-    #     delimitter = self.controller.get_delimmiter()
+    def greet(self, username):
+        return 'Hi {0}, welcome to Octo-Py'.format(username)
         
-    #     statement = 'Octo-Py needs the column code which it needs to predict. \
-    #         Please enter any {0} code from the above:\n'.format(max_labels)
-    #     #print(statement)
-    #     label_codes = int(input(statement))
-        
-    #     statement = 'Octo-Py needs the column codes which will be its inputs.\
-    #         Please enter equal to or less than {0}  codes from the above separated with {1}\
-    #         OR\n enter -1 to select all columns except your output prediction label:\n'.format(max_feautures,delimitter)
-    #     #print(statement)
-    #     #feature_codes_str = '-1'
-    #     feature_codes_str = input(statement)
-        
-    #     self.controller.set_features_and_labels(feature_codes_str, label_codes)
-
-    # def get_features_and_labels(self):
-    #     print('\n(inputs, outputs) for Octo-Py are:')
-    #     print(self.controller.get_features_and_labels())
-
-    # def get_model_ids(self):
-    #     print(self.controller.get_model_ids())
-
-    # def train(self, train_split):
-    #     train_score = self.controller.train(train_split)
-    #     #print(train_score, type(train_score))
-        
-    #     for metric_name in train_score:
-    #         statement = '{0} of model is {1}%'.format(metric_name, train_score[metric_name]*100)
-    #     print(statement)
-
 
 class CommandShellInterface(Interface):
     """docstring for CommandShellInterface"""
@@ -129,17 +71,9 @@ class CommandShellInterface(Interface):
             print('Press {0} for {1}'.format(index+1, input_options[index]))
 
     def load_data(self, path):
-        statement = 'Enter absolute file path:\n'
-        #path = input(statement)
         super(CommandShellInterface, self).load_data(path)
 
     def get_columns(self):
-        print("Column Summary:", end="\n")
-        for i in super(CommandShellInterface, self).get_column_data_types():
-            print(i)
-        
-        print(super(CommandShellInterface, self).get_summary(), end="\n\n")
-        
         columns = super(CommandShellInterface, self).get_columns()
         for index in range(len(columns)):
             print("Column code : {0} \tColumn Name : {1}".format(index, columns[index]))
@@ -175,3 +109,16 @@ class CommandShellInterface(Interface):
         for metric_name in train_score:
             statement = '{0} of model is {1}%'.format(metric_name, train_score[metric_name]*100)
         print(statement)
+
+
+
+class WebInterface(Interface):
+    """docstring for WebInterface"""
+    def __init__(self, arg):
+        super(Interface, self).__init__()        
+
+    def set_controller(self, controller):
+        super(WebInterface, self).set_controller(controller)
+    
+    def greet(self, username):
+        return super(WebInterface, self).greet(username)
