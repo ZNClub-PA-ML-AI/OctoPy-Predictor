@@ -122,3 +122,6 @@ class WebInterface(Interface):
     
     def greet(self, username):
         return super(WebInterface, self).greet(username)
+
+    def load_data(self, path):
+        super(WebInterface, self).load_data(path)

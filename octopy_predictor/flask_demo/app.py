@@ -1,13 +1,15 @@
 # controller
 
-from flask import Flask, request
+from flask import Flask, request, redirect, url_for
 from flask import jsonify
 from flask import Response
+import os
+from werkzeug import secure_filename
 
 app = Flask(__name__)
 
-
-''' reference :http://flask.pocoo.org/snippets/67/ '''
+''' Server shutdown snippet reference :http://flask.pocoo.org/snippets/67/ '''
+@app.route('/shutdown')
 def shutdown_server():
     func = request.environ.get('werkzeug.server.shutdown')
     if func is None:
@@ -16,6 +18,7 @@ def shutdown_server():
 
 quotes = {1:'Beautiful is better than ugly.'}
 
+''' Basic Routes'''
 @app.route('/')
 def hello_world():
     return 'Hello, Welcome to Flask demo!'
@@ -64,6 +67,38 @@ def get_popular_quote_id():
 		pass
 	else:
 		return str(1)
+
+''' File Upload Snippet reference https://gist.github.com/dAnjou/2874714'''
+
+UPLOAD_FOLDER = r'C:\Users\Augus\dev\Projects\OctoPy-Predictor\octopy_predictor\data'
+ALLOWED_EXTENSIONS = set(['txt'])
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+def allowed_file(filename):
+	return True
+	return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
+@app.route("/data-file", methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+    	print(request.headers, request.files)
+        file = request.files['file']
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            return redirect(url_for('index'))
+    else:
+	    return """
+	    <!doctype html>
+	    <title>Upload new File</title>
+	    <h1>Upload new File</h1>
+	    <form action="" method=post enctype=multipart/form-data>
+	      <p><input type=file name=file>
+	         <input type=submit value=Upload>
+	    </form>
+	    <p>%s</p>
+	    """ % "<br>".join(os.listdir(app.config['UPLOAD_FOLDER'],))
+
 
 if __name__ == '__main__':
     app.run(port=8080)
