@@ -26,8 +26,8 @@ class Service(object):
     def set_visualizer(self, visualizer):
         self.visualizer = visualizer
 
-    def load_data(self, path):
-        self.df = self.datagatherer.read(path)
+    def load_data(self, path, file):
+        self.df = self.datagatherer.read(path=path, file=file)
         self.df = self.df[0:100]
 
     def get_summary(self):

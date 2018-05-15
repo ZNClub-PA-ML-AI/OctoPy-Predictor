@@ -1,3 +1,4 @@
+
 class Interface(object):
     """docstring for CommandShellInterface"""
     def __init__(self, arg):
@@ -16,8 +17,8 @@ class Interface(object):
     def get_input_options(self):
         return ["EXCEL from local","JSON from url","CSV from url"]
         
-    def load_data(self, path):
-        self.controller.load_data(path)
+    def load_data(self, path, file):
+        self.controller.load_data(path=path, file=file)
 
     def get_summary(self):
         return self.controller.get_summary()
@@ -70,8 +71,8 @@ class CommandShellInterface(Interface):
         for index in range(len(input_options)):
             print('Press {0} for {1}'.format(index+1, input_options[index]))
 
-    def load_data(self, path):
-        super(CommandShellInterface, self).load_data(path)
+    def load_data(self, path, file):
+        super(CommandShellInterface, self).load_data(path=path, file=file)
 
     def get_columns(self):
         columns = super(CommandShellInterface, self).get_columns()
@@ -123,5 +124,6 @@ class WebInterface(Interface):
     def greet(self, username):
         return super(WebInterface, self).greet(username)
 
-    def load_data(self, path):
-        super(WebInterface, self).load_data(path)
+    def load_data(self, file):
+        super(WebInterface, self).load_data(file=file)
+

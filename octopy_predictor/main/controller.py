@@ -15,8 +15,8 @@ class Controller(object):
  def set_context(self, context):
      self.context = context
 
- def load_data(self, path):
-     self.service.load_data(path)
+ def load_data(self, path, file):
+     self.service.load_data(path=path, file=file)
 
  def get_summary(self):
      return self.service.get_summary()
