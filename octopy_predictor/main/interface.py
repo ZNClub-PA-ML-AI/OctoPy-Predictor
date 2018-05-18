@@ -71,7 +71,7 @@ class CommandShellInterface(Interface):
         for index in range(len(input_options)):
             print('Press {0} for {1}'.format(index+1, input_options[index]))
 
-    def load_data(self, path, file):
+    def load_data(self, path = path, file = file):
         super(CommandShellInterface, self).load_data(path=path, file=file)
 
     def get_columns(self):

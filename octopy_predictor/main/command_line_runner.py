@@ -15,7 +15,7 @@ if __name__ == '__main__':
     # path = input("please enter/ paste local path:\n")
 
     path = r"..\data\nifty50.csv"
-    interface.load_data(path)
+    interface.load_data(path = path)
     interface.get_columns()
     interface.set_features_and_labels()
     interface.get_features_and_labels()
