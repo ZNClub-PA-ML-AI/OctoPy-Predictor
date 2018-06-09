@@ -1,5 +1,8 @@
+from util import logit, inspect
+from werkzeug.utils import secure_filename
 
-import numpy as np
+import context
+import os
 
 class Service(object):
     """docstring for Service"""
@@ -15,7 +18,7 @@ class Service(object):
         self.labels = None
         self.delimitter = ','
         self.model = None
-        self.y_ = None
+        self.y_ = None        
         
     def set_datagatherer(self, datagatherer):
         self.datagatherer = datagatherer
@@ -26,9 +29,19 @@ class Service(object):
     def set_visualizer(self, visualizer):
         self.visualizer = visualizer
 
+    def _generate_path(self, file):
+        filename = secure_filename(file.filename)
+        filepath = os.path.join(context.UPLOAD_FOLDER, filename)
+        file.save(filepath)
+        return filepath
+        
+    @logit
+    #@inspect
     def load_data(self, path, file):
-        self.df = self.datagatherer.read(path=path, file=file)
-        self.df = self.df[0:100]
+        if context.is_file_stored:
+            path = self._generate_path(file)
+            file = None            
+        self.df = self.datagatherer.read(path=path, file=file)        
 
     def get_summary(self):
         return self.analyser.get_summary(self.df)

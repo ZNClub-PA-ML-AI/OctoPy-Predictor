@@ -1,3 +1,4 @@
+from util import logit
 
 class Interface(object):
     """docstring for CommandShellInterface"""
@@ -10,16 +11,17 @@ class Interface(object):
     def set_controller(self, controller):
         self.controller = controller
         print("controller set")
-
+    
     def greet(self, username):
         return 'Welcome {0}. I am Octo-Py: the genius predictor'.format(username)
-
+        
     def get_input_options(self):
         return ["EXCEL from local","JSON from url","CSV from url"]
         
-    def load_data(self, path, file):
+    @logit
+    def load_data(self, path=None, file=None):        
         self.controller.load_data(path=path, file=file)
-
+    
     def get_summary(self):
         return self.controller.get_summary()
 
@@ -34,8 +36,7 @@ class Interface(object):
         max_labels = 1
         delimitter = self.controller.get_delimmiter()
         return max_feautures, max_labels, delimitter
-        
-    
+            
     def set_features_and_labels(self, feature_codes_str, label_codes):            
         self.controller.set_features_and_labels(feature_codes_str, label_codes)
 
@@ -47,10 +48,6 @@ class Interface(object):
 
     def train(self, train_split):
         return self.controller.train(train_split)
-
-    def greet(self, username):
-        return 'Hi {0}, welcome to Octo-Py'.format(username)
-        
 
 class CommandShellInterface(Interface):
     """docstring for CommandShellInterface"""
@@ -71,7 +68,7 @@ class CommandShellInterface(Interface):
         for index in range(len(input_options)):
             print('Press {0} for {1}'.format(index+1, input_options[index]))
 
-    def load_data(self, path = path, file = file):
+    def load_data(self, path = None, file = None):
         super(CommandShellInterface, self).load_data(path=path, file=file)
 
     def get_columns(self):

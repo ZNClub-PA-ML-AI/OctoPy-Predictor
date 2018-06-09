@@ -1,21 +1,16 @@
-'''Application app_context'''
+'''Application Context in app_context'''
 
-import pandas as pd
-import numpy as np
-
-from sklearn.utils import shuffle
-from sklearn.metrics import explained_variance_score
-
-from interface import *
-from controller import *
-from service import *
-from datagatherer import *
-from analyser import *
-from visualizer import *
-from model import *
-
+from interface import WebInterface, CommandShellInterface, Interface
+from controller import Controller
+from service import Service
+from datagatherer import DataGatherer
+from analyser import Analyser
+from visualizer import Visualizer
+from model import Model, SVC_Model, SVR_Model
 
 app_context = {}
+UPLOAD_FOLDER = r'C:\Users\Augus\dev\Projects\OctoPy-Predictor\octopy_predictor\data'
+is_file_stored = True
 
 def init_dependencies():
     
@@ -29,7 +24,7 @@ def init_dependencies():
     visualizer = Visualizer(None)
     model = Model(None)
     svc_model = SVC_Model(model)
-    svr_model = SVR_Model(model)
+    svr_model = SVR_Model(model)         
     
     app_context['model_ids'] = model_ids
     app_context['datagatherer'] = datagatherer
@@ -43,6 +38,8 @@ def init_dependencies():
     app_context['WebInterface'] = web_interface
     app_context['controller'] = controller
     app_context['service'] = service
+    
+    app_context['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
     command_shell_interface.set_controller(app_context['controller'])
     web_interface.set_controller(app_context['controller'])
@@ -53,15 +50,10 @@ def init_dependencies():
     service.set_visualizer(app_context['visualizer'])
     
     '''TODO - Will be taken as user input'''
-    service.set_model(app_context['SVR_model'])
-    return app_context
-
+    service.set_model(app_context['SVR_model'])    
 
 def set_app_context(key, value_key):
 	app_context[key] = app_context[value_key]
 
-
 def get_app_context(key):
 	return app_context[key]
-
-init_dependencies()
