@@ -1,5 +1,8 @@
 '''Application Context in app_context'''
 
+import configparser
+config = configparser.ConfigParser()
+
 from interface import WebInterface, CommandShellInterface, Interface
 from controller import Controller
 from service import Service
@@ -9,8 +12,17 @@ from visualizer import Visualizer
 from model import Model, SVC_Model, SVR_Model
 
 app_context = {}
-UPLOAD_FOLDER = r'C:\Users\Augus\dev\Projects\OctoPy-Predictor\octopy_predictor\data'
-is_file_stored = True
+config.read('local.ini')
+LIST_DELIMITTER=','
+#UPLOAD_FOLDER = r'C:\Users\Augus\dev\Projects\OctoPy-Predictor\octopy_predictor\data'
+#is_file_stored = True
+#HTTP_PORT = 9009
+
+UPLOAD_FOLDER = config['SYSTEM']['UPLOAD_FOLER']
+is_file_stored = config['FLAG'].getboolean('is_file_stored')
+HTTP_PORT = config['WEB'].getint('HTTP_PORT')
+DEBUG_MODE = config['FLAG'].getboolean('DEBUG_MODE')
+ALLOWED_EXTENSIONS = set(config['SYSTEM']['ALLOWED_EXTENSIONS'].split(LIST_DELIMITTER))
 
 def init_dependencies():
     

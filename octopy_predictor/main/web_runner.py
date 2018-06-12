@@ -2,23 +2,16 @@
 
 from flask import Flask, request, redirect, url_for
 import context
-from logging import FileHandler, WARNING
 import util
 import json
 from util import logit, jsonify
 import os
 
 
-DEBUG_MODE = False
-ALLOWED_EXTENSIONS = set(['txt', 'csv', 'xls', 'xlsx'])
-file_handler = FileHandler('octoPy.log')
-file_handler.setLevel(WARNING)
-
 '''define Flask app'''
 app = Flask(__name__)
-app.config['DEBUG'] = DEBUG_MODE
+app.config['DEBUG'] = context.DEBUG_MODE
 
-#app.logger.addHandler(file_handler)
 
 UPLOAD_FORM_HTML_TEMPLATE = """
         <!doctype html>
@@ -31,10 +24,6 @@ UPLOAD_FORM_HTML_TEMPLATE = """
         <p>%s</p>
         """ % "<br>".join(os.listdir(context.UPLOAD_FOLDER,))
 
-
-def allowed_file(filename):
-    return True
-    return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 
 @app.route('/', methods=['GET'])
@@ -57,7 +46,7 @@ def greet(username):
 def file_upload():
     if request.method == 'POST':                
         file = request.files['file']   
-        if file is None or not allowed_file(file.filename):
+        if file is None or not util.is_allowed_file(file.filename):
             raise ValueError('File Type not supported for Upload. \
             Please upload valid file')                    
         interface.load_data(file = file)        
@@ -73,8 +62,5 @@ if __name__ == '__main__':
 
     context.init_dependencies()
     interface = context.app_context['WebInterface']
-    app.run(port=9100)
-
-    
-
+    app.run(port=context.HTTP_PORT)
     

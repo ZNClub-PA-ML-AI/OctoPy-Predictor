@@ -5,8 +5,14 @@ from flask import jsonify
 from flask import Response
 import os
 from werkzeug import secure_filename
+from logging import FileHandler, WARNING
+
+file_handler = FileHandler('octoPy.log')
+file_handler.setLevel(WARNING)
+
 
 app = Flask(__name__)
+app.logger.addHandler(file_handler)
 
 ''' Server shutdown snippet reference :http://flask.pocoo.org/snippets/67/ '''
 @app.route('/shutdown')

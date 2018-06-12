@@ -4,6 +4,8 @@ import json
 import pandas as pd
 from flask import request
 from functools import wraps
+#TODO
+#import context
 
 logging.basicConfig(filename='{}.log'.format('app'), level=logging.INFO)
 log = logging
@@ -39,6 +41,7 @@ def inspect(orig_func):
         return orig_func(*args, **kwargs)
     return wrapper
 
+''' '''
 def jsonify(orig_func):
     
     @wraps(orig_func)
@@ -54,3 +57,9 @@ def jsonify(orig_func):
         debug_store[orig_func.__module__+orig_func.__name__] = json_result
         return json_result
     return wrapper
+
+''' '''
+def is_allowed_file(filename):    
+    return True
+    #TODO
+    #return '.' in filename and filename.rsplit('.', 1)[1] in context.ALLOWED_EXTENSIONS
