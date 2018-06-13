@@ -25,7 +25,7 @@ class DataGatherer(object):
         try:            
             df = None
             if file is None:
-                df = pd.read_csv(path)
+                df = pd.read_csv(path, nrows=100)
             elif path is None:
                 file_content = self._read_from_file(file)
                 util.debug_store['StringIO(file_content) at datagatherer'] = StringIO(file_content)                

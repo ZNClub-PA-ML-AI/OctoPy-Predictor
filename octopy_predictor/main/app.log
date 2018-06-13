@@ -12,3 +12,14 @@ INFO:root:service.load_data invoked with args: (<service.Service object at 0x000
 INFO:root:datagatherer.read invoked with args: (<datagatherer.DataGatherer object at 0x000000000B7BD0F0>,), and kwargs: {'file': None, 'path': '../data\\titanic-train.csv'}
 INFO:werkzeug:127.0.0.1 - - [12/Jun/2018 09:16:48] "POST /data-file HTTP/1.1" 200 -
 INFO:werkzeug:127.0.0.1 - - [12/Jun/2018 09:16:48] "GET /favicon.ico HTTP/1.1" 200 -
+INFO:root:interface.load_data invoked with args: (<interface.CommandShellInterface object at 0x000000000906AC50>,), and kwargs: {'path': '..\\data\\nifty50.csv', 'file': None}
+INFO:root:service.load_data invoked with args: (<service.Service object at 0x000000000906ABE0>,), and kwargs: {'path': '..\\data\\nifty50.csv', 'file': None}
+INFO:root:interface.load_data invoked with args: (<interface.CommandShellInterface object at 0x000000000BAC4E80>,), and kwargs: {'path': '..\\data\\nifty50.csv', 'file': None}
+INFO:root:service.load_data invoked with args: (<service.Service object at 0x000000000BAC4D30>,), and kwargs: {'path': '..\\data\\nifty50.csv', 'file': None}
+INFO:root:datagatherer.read invoked with args: (<datagatherer.DataGatherer object at 0x000000000BB45AC8>,), and kwargs: {'path': '..\\data\\nifty50.csv', 'file': None}
+INFO:root:interface.load_data invoked with args: (<interface.CommandShellInterface object at 0x000000000BB8F748>,), and kwargs: {'path': '..\\data\\nifty50.csv', 'file': None}
+INFO:root:service.load_data invoked with args: (<service.Service object at 0x000000000BB8F898>,), and kwargs: {'path': '..\\data\\nifty50.csv', 'file': None}
+INFO:root:datagatherer.read invoked with args: (<datagatherer.DataGatherer object at 0x000000000BB8F588>,), and kwargs: {'path': '..\\data\\nifty50.csv', 'file': None}
+INFO:root:interface.load_data invoked with args: (<interface.CommandShellInterface object at 0x000000000C640B38>,), and kwargs: {'path': '..\\data\\nifty50.csv', 'file': None}
+INFO:root:service.load_data invoked with args: (<service.Service object at 0x000000000C640AC8>,), and kwargs: {'path': '..\\data\\nifty50.csv', 'file': None}
+INFO:root:datagatherer.read invoked with args: (<datagatherer.DataGatherer object at 0x000000000C640E48>,), and kwargs: {'path': '..\\data\\nifty50.csv', 'file': None}

@@ -29,7 +29,7 @@ class Service(object):
     def set_visualizer(self, visualizer):
         self.visualizer = visualizer
 
-    def _generate_path(self, file):
+    def _generate_path(self, file={}):
         filename = secure_filename(file.filename)
         filepath = os.path.join(context.UPLOAD_FOLDER, filename)
         file.save(filepath)
@@ -38,7 +38,7 @@ class Service(object):
     @logit
     #@inspect
     def load_data(self, path, file):
-        if context.is_file_stored:
+        if path is None and context.is_file_stored:
             path = self._generate_path(file)
             file = None            
         self.df = self.datagatherer.read(path=path, file=file)        
