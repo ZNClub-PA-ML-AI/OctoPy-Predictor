@@ -3,12 +3,20 @@ Generic platform for Prediction using basic machine learning models
 
 ## Index
 
+- Structure
 - Components
 - Architecture
 - Technology Stack
 - Setup
 - Input File Constraints
 - Algorithms supported
+
+## Structure
+
+- bokeh_demo: Visualizer Component Demo - to be moved out
+- data: All data to be stored/ loaded
+- flask_demo: WebInterface Demo - to be moved out
+- main: All working component files
 
 ## Components
 
