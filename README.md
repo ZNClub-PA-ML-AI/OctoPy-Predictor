@@ -10,7 +10,6 @@ Generic platform for Prediction using basic machine learning models
 - Setup
 - Input File Constraints
 - Algorithms supported
-- Learnings
 
 ## Structure
 
@@ -33,33 +32,13 @@ Generic platform for Prediction using basic machine learning models
 - Support Vector Machine
 
 ## TODO
-
 - NameError: name 'fetch_all_features' is not defined :: currently converted to self.method_name(). Need to learn about static methods in Python Class	
 - Give options as REGRESSION / CLASSIFICATION. Else regression data fails for classification model
-- create stable version in master branch with supported documentation. Also create subsequent develop branch.
-
 
 [logo]: https://raw.githubusercontent.com/ZNevzz/ZNevzz.github.io/master/Octo-Py.png
 
 
 ## SETUP/ CONFIGURATIONS
-
-### Getting started with...
-
-#### Command Line
-
-- cd octopy_predictor/main
-- python command_line_runner.py
-- Follow the instructions
-
-#### Web Browser
-
-- cd octopy_predictor/main
-- python web_runner.py
-- url(http://localhost:port_no/) to check status
-- url(http://localhost:port_no/data-file) to upload data file
-- submit and Octopy gives a summary of data
-
 
 ### GENERAL
 #### Setup path variables
@@ -76,9 +55,3 @@ Generic platform for Prediction using basic machine learning models
 - python app.py
 
 
-## Learnings
-
-- develop web app with config, log in python
-- module structure in python
-- dependency injection
-- __pycache__ and .pyc ?
