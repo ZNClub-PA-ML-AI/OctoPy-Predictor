@@ -53,3 +53,7 @@ INFO:root:__main__.file_upload invoked with args: (), and kwargs: {}
 INFO:werkzeug:127.0.0.1 - - [02/Sep/2018 12:07:23] "POST /data-file HTTP/1.1" 400 -
 INFO:root:__main__.file_upload invoked with args: (), and kwargs: {}
 INFO:werkzeug:127.0.0.1 - - [02/Sep/2018 12:07:29] "POST /data-file HTTP/1.1" 400 -
+INFO:root:datagatherer.read invoked with args: (<class 'datagatherer.DataGatherer'>, '..\\data\\titanic-test.csv'), and kwargs: {}
+INFO:root:datagatherer.read invoked with args: (<class 'datagatherer.DataGatherer'>, '..\\data\\titanic-test.csv'), and kwargs: {}
+INFO:root:datagatherer.read invoked with args: (<class 'datagatherer.DataGatherer'>, '..\\data\\titanic-test.csv'), and kwargs: {}
+INFO:root:datagatherer.read invoked with args: (<class 'datagatherer.DataGatherer'>, '..\\data\\titanic-test.csv'), and kwargs: {}

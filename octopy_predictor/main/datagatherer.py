@@ -6,9 +6,10 @@ import util
 
 class DataGatherer(object):
     """docstring for DataGatherer"""
-    def __init__(self, arg):
+    def __init__(self, arg = None):
         super(DataGatherer, self).__init__()
         self.arg = arg
+
     @logit
     def _read_from_file(file):
         _file_content = None
@@ -20,6 +21,7 @@ class DataGatherer(object):
             raise io_error
         else:
             return _file_content
+    
     @logit
     def read(self, path = None, file = None):
         try:            

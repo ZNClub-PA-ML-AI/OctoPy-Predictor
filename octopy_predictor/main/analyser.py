@@ -3,7 +3,7 @@ from sklearn.metrics import explained_variance_score
 
 class Analyser(object):
     """docstring for Analyser"""        
-    def __init__(self, arg):
+    def __init__(self, arg = None):
         super(Analyser, self).__init__()
         self.arg = arg        
         self.regression_metrics = {'Explained Variance' : explained_variance_score}

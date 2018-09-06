@@ -25,7 +25,8 @@ DEBUG_MODE = config['FLAG'].getboolean('DEBUG_MODE')
 ALLOWED_EXTENSIONS = set(config['SYSTEM']['ALLOWED_EXTENSIONS'].split(LIST_DELIMITTER))
 
 def init_dependencies():
-    
+
+    '''create objects'''
     model_ids = ['SVC_model','SVR_model']
     command_shell_interface = CommandShellInterface(Interface)
     web_interface = WebInterface(Interface)
@@ -38,6 +39,7 @@ def init_dependencies():
     svc_model = SVC_Model(model)
     svr_model = SVR_Model(model)         
     
+    '''register objects in context'''
     app_context['model_ids'] = model_ids
     app_context['datagatherer'] = datagatherer
     app_context['analyser'] = analyser
@@ -45,14 +47,15 @@ def init_dependencies():
     app_context['model'] = model
     app_context['SVC_model'] = svc_model
     app_context['SVR_model'] = svr_model
-
     app_context['CommandShellInterface'] = command_shell_interface
     app_context['WebInterface'] = web_interface
     app_context['controller'] = controller
     app_context['service'] = service
     
+    '''register constansts'''
     app_context['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+    '''inject dependencies in objects'''
     command_shell_interface.set_controller(app_context['controller'])
     web_interface.set_controller(app_context['controller'])
     controller.set_service(app_context['service'])

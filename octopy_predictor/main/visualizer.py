@@ -3,11 +3,11 @@ import pandas as pd
 from bokeh.models import ColumnDataSource
 from bokeh.plotting import figure, show, output_file
 
-
+from matplotlib import pyplot as plt
 
 class Visualizer(object):
 	"""docstring for Visualizer"""
-	def __init__(self, arg):
+	def __init__(self, arg = None):
 		super(Visualizer, self).__init__()
 		self.arg = arg
 		self.colors = ['#D2B4DE','#D68910','#58D68D','#633974','#34495E']
@@ -25,13 +25,32 @@ class Visualizer(object):
 
 		output_file("ts.html")
 		show(p)
+	'''
+	from visualizer import Visualizer as viz
+	from datagatherer import DataGatherer as dg
+	PATH = r'..\data\nifty50.csv'
+	df = dg.read(dg, PATH)
+	columnDtypeGroups =  df.columns.to_series().groupby(df.dtypes).groups
+	dtypeColumnPairs = {k.name,v for k,v in columnDtypeGroups.items()}
+	viz.time_series(viz, df, dtypeColumnPairs['float64'])
+	'''
+	def histogram(self, df, columns = ['Age']):
+		fig = plt.figure()
+		ax = fig.add_subplot(1, 1, 1)
 
-'''
-from visualizer import Visualizer as viz
-from datagatherer import DataGatherer as dg
-PATH = r'..\data\nifty50.csv'
-df = dg.read(dg, PATH)
-columnDtypeGroups =  df.columns.to_series().groupby(df.dtypes).groups
-dtypeColumnPairs = {k.name,v for k,v in columnDtypeGroups.items()}
-viz.time_series(viz, df, dtypeColumnPairs['float64'])
-'''
+		print(columns)
+		ax.hist(df[columns],bins = 10)
+		plt.title('Age distribution')
+		plt.xlabel('Age')
+		plt.ylabel('#Employee')
+		plt.show()
+	'''
+	from visualizer import Visualizer
+
+	from datagatherer import DataGatherer
+	PATH = r'..\data\titanic-test.csv'
+	dg = DataGatherer()
+	df = dg.read(dg, PATH)
+	viz = Visualizer()
+	viz.histogram(df, ['Fare'])
+	'''
