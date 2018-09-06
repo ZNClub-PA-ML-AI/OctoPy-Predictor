@@ -57,3 +57,7 @@ INFO:root:datagatherer.read invoked with args: (<class 'datagatherer.DataGathere
 INFO:root:datagatherer.read invoked with args: (<class 'datagatherer.DataGatherer'>, '..\\data\\titanic-test.csv'), and kwargs: {}
 INFO:root:datagatherer.read invoked with args: (<class 'datagatherer.DataGatherer'>, '..\\data\\titanic-test.csv'), and kwargs: {}
 INFO:root:datagatherer.read invoked with args: (<class 'datagatherer.DataGatherer'>, '..\\data\\titanic-test.csv'), and kwargs: {}
+INFO:root:datagatherer.read invoked with args: (<datagatherer.DataGatherer object at 0x0000000000DA8748>, '..\\data\\titanic-test.csv'), and kwargs: {}
+INFO:root:datagatherer.read invoked with args: (<datagatherer.DataGatherer object at 0x0000000000538710>, '..\\data\\nifty50.csv'), and kwargs: {}
+INFO:root:datagatherer.read invoked with args: (<datagatherer.DataGatherer object at 0x0000000000D88710>, '..\\data\\nifty50.csv'), and kwargs: {}
+INFO:root:datagatherer.read invoked with args: (<datagatherer.DataGatherer object at 0x0000000000D88710>, '..\\data\\nifty50.csv'), and kwargs: {}
