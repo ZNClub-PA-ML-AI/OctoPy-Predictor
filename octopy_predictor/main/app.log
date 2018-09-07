@@ -61,3 +61,19 @@ INFO:root:datagatherer.read invoked with args: (<datagatherer.DataGatherer objec
 INFO:root:datagatherer.read invoked with args: (<datagatherer.DataGatherer object at 0x0000000000538710>, '..\\data\\nifty50.csv'), and kwargs: {}
 INFO:root:datagatherer.read invoked with args: (<datagatherer.DataGatherer object at 0x0000000000D88710>, '..\\data\\nifty50.csv'), and kwargs: {}
 INFO:root:datagatherer.read invoked with args: (<datagatherer.DataGatherer object at 0x0000000000D88710>, '..\\data\\nifty50.csv'), and kwargs: {}
+INFO:root:datagatherer.read invoked with args: (<datagatherer.DataGatherer object at 0x0000000000DB8710>, '..\\data\\nifty50.csv'), and kwargs: {}
+INFO:root:datagatherer.read invoked with args: (<datagatherer.DataGatherer object at 0x0000000000728710>, '..\\data\\nifty50.csv'), and kwargs: {}
+INFO:root:datagatherer.read invoked with args: (<datagatherer.DataGatherer object at 0x0000000000BA8710>, '..\\data\\nifty50.csv'), and kwargs: {}
+INFO:root:datagatherer.read invoked with args: (<datagatherer.DataGatherer object at 0x000000000903BB70>, '..\\data\\nifty50.csv'), and kwargs: {}
+INFO:root:datagatherer.read invoked with args: (<datagatherer.DataGatherer object at 0x0000000007DE1780>, '..\\data\\nifty50.csv'), and kwargs: {}
+INFO:root:datagatherer.read invoked with args: (<datagatherer.DataGatherer object at 0x000000000BD19DA0>, '..\\data\\nifty50.csv'), and kwargs: {}
+INFO:root:datagatherer.read invoked with args: (<datagatherer.DataGatherer object at 0x000000000BD19F60>, '..\\data\\nifty50.csv'), and kwargs: {}
+INFO:bokeh.core.state:Session output file 'time_series.html' already exists, will be overwritten.
+INFO:root:datagatherer.read invoked with args: (<datagatherer.DataGatherer object at 0x0000000007DBDFD0>, '..\\data\\nifty50.csv'), and kwargs: {}
+INFO:bokeh.core.state:Session output file 'time_series.html' already exists, will be overwritten.
+INFO:root:datagatherer.read invoked with args: (<datagatherer.DataGatherer object at 0x000000000C1B0978>, '..\\data\\nifty50.csv'), and kwargs: {}
+INFO:bokeh.core.state:Session output file 'time_series.html' already exists, will be overwritten.
+INFO:root:datagatherer.read invoked with args: (<datagatherer.DataGatherer object at 0x000000000B4C2F28>, '..\\data\\nifty50.csv'), and kwargs: {}
+INFO:bokeh.core.state:Session output file 'time_series.html' already exists, will be overwritten.
+INFO:root:datagatherer.read invoked with args: (<datagatherer.DataGatherer object at 0x000000000C20D940>, '..\\data\\nifty50.csv'), and kwargs: {}
+INFO:bokeh.core.state:Session output file 'time_series.html' already exists, will be overwritten.
