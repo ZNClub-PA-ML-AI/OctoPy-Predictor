@@ -77,3 +77,8 @@ INFO:root:datagatherer.read invoked with args: (<datagatherer.DataGatherer objec
 INFO:bokeh.core.state:Session output file 'time_series.html' already exists, will be overwritten.
 INFO:root:datagatherer.read invoked with args: (<datagatherer.DataGatherer object at 0x000000000C20D940>, '..\\data\\nifty50.csv'), and kwargs: {}
 INFO:bokeh.core.state:Session output file 'time_series.html' already exists, will be overwritten.
+INFO:root:datagatherer.read invoked with args: (<datagatherer.DataGatherer object at 0x0000000007B37390>, '..\\data\\titanic-test.csv'), and kwargs: {}
+INFO:root:datagatherer.read invoked with args: (<datagatherer.DataGatherer object at 0x000000000BB19550>, '..\\data\\titanic-test.csv'), and kwargs: {}
+INFO:root:datagatherer.read invoked with args: (<datagatherer.DataGatherer object at 0x000000000B5A9D30>, '..\\data\\titanic-test.csv'), and kwargs: {}
+INFO:root:datagatherer.read invoked with args: (<datagatherer.DataGatherer object at 0x000000000B6F32E8>, '..\\data\\titanic-test.csv'), and kwargs: {}
+INFO:root:datagatherer.read invoked with args: (<datagatherer.DataGatherer object at 0x000000000BC054A8>, '..\\data\\titanic-test.csv'), and kwargs: {}
