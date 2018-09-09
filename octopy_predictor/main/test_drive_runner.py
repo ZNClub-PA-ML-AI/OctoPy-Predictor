@@ -14,13 +14,13 @@ df = gat.read(PATH)
 
 '''time_series'''
 #==============================================================================
-# column_dtype_groups = df.columns.to_series().groupby(df.dtypes).groups
-# column_dtype_dict = {k.name:v for k,v in column_dtype_groups.items()}
-# viz.time_series(df, column_dtype_dict['float64'])
+column_dtype_groups = df.columns.to_series().groupby(df.dtypes).groups
+column_dtype_dict = {k.name:v for k,v in column_dtype_groups.items()}
+viz.time_series(df, column_dtype_dict['float64'])
 #==============================================================================
 
 '''histogram'''
-viz.histogram(df = df, column = 'Fare', bins = 5)
+# viz.histogram(df = df, column = 'Fare', bins = 5)
 
 
 print('---->End of Test Drive<----')

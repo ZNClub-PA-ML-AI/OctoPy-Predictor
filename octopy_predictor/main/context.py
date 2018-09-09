@@ -8,7 +8,7 @@ from controller import Controller
 from service import Service
 from datagatherer import DataGatherer
 from analyser import Analyser
-from visualizer import Visualizer
+from visualizer import Visualizer, BokehVisualizer
 from model import Model, SVC_Model, SVR_Model
 
 app_context = {}
@@ -23,6 +23,7 @@ is_file_stored = config['FLAG'].getboolean('is_file_stored')
 HTTP_PORT = config['WEB'].getint('HTTP_PORT')
 DEBUG_MODE = config['FLAG'].getboolean('DEBUG_MODE')
 ALLOWED_EXTENSIONS = set(config['SYSTEM']['ALLOWED_EXTENSIONS'].split(LIST_DELIMITTER))
+VISUALIZER = config['DEFAULT_COMPONENT']['VISUALIZER']
 
 def init_dependencies():
 
@@ -35,6 +36,7 @@ def init_dependencies():
     datagatherer = DataGatherer(None)
     analyser = Analyser(None)
     visualizer = Visualizer(None)
+    bokeh_visualizer = BokehVisualizer(Visualizer)
     model = Model(None)
     svc_model = SVC_Model(model)
     svr_model = SVR_Model(model)         
@@ -44,6 +46,7 @@ def init_dependencies():
     app_context['datagatherer'] = datagatherer
     app_context['analyser'] = analyser
     app_context['visualizer'] = visualizer
+    app_context['bokeh_visualizer'] = bokeh_visualizer
     app_context['model'] = model
     app_context['SVC_model'] = svc_model
     app_context['SVR_model'] = svr_model
@@ -62,10 +65,10 @@ def init_dependencies():
     controller.set_context(app_context)
     service.set_datagatherer(app_context['datagatherer'])
     service.set_analyser(app_context['analyser'])
-    service.set_visualizer(app_context['visualizer'])
+    service.set_visualizer(app_context[VISUALIZER])
     
     '''TODO - Will be taken as user input'''
-    service.set_model(app_context['SVR_model'])    
+    service.set_model(app_context['SVR_model'])  
 
 def set_app_context(key, value_key):
 	app_context[key] = app_context[value_key]
