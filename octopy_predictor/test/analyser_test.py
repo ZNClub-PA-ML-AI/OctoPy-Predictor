@@ -19,9 +19,9 @@ class AnalyserTest(unittest.TestCase):
 
 	def test_is_regression_model_type(self):
 		expected_result = 'Regression'
-		array = np.random.randint(100)
+		array = [i for i in range(20)]
 
-		actual_result = self.analyser.get_model_type_by_label(array.tolist())
+		actual_result = self.analyser.get_model_type_by_label(array)
 
 		self.assertEquals(actual_result, expected_result)
 
