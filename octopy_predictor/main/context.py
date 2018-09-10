@@ -13,10 +13,6 @@ from model import Model, SVC_Model, SVR_Model
 
 app_context = {}
 config.read('local.ini')
-LIST_DELIMITTER=','
-#UPLOAD_FOLDER = r'C:\Users\Augus\dev\Projects\OctoPy-Predictor\octopy_predictor\data'
-#is_file_stored = True
-#HTTP_PORT = 9009
 
 UPLOAD_FOLDER = config['SYSTEM']['UPLOAD_FOLER']
 is_file_stored = config['FLAG'].getboolean('is_file_stored')

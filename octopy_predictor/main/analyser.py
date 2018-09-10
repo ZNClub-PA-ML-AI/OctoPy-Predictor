@@ -25,3 +25,10 @@ class Analyser(object):
         for metric_name, metric_method in self.metrics[mode].items():            
             metric_values[metric_name] = metric_method(y_true, y_pred)
         return metric_values
+    
+    def _is_categorical(self, label):
+        return len(set(label)) < 10 and all(map(label, lambda x: isintance(x, str)))
+    
+    def get_model_type_by_label(self, label = []):
+        return 'Classification' if self._is_categorical(label) else 'Regression'
+    
