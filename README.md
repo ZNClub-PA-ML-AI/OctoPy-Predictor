@@ -1,4 +1,20 @@
 # OctoPy-Predictor
+
+<pre>
+      o__ __o                 o                        o__ __o               
+     /v     v\               <|>                      <|     v\              
+    />       <\              < >                      / \     <\             
+  o/           \o     __o__   |        o__ __o        \o/     o/   o      o  
+ <|             |>   />  \    o__/_   /v     v\        |__  _<|/  <|>    <|> 
+  \\           //  o/         |      />       <\       |          < >    < > 
+    \         /   <|          |      \         /      <o>          \o    o/  
+     o       o     \\         o       o       o        |            v\  /v   
+     <\__ __/>      _\o__</   <\__    <\__ __/>       / \            <\/>    
+                                                                      /      
+                                                                     o       
+                                                                  __/>       
+</pre>
+
 Generic platform for Prediction using basic machine learning models
 
 ## Index
