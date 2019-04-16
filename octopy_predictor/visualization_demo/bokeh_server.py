@@ -1,5 +1,6 @@
 from os.path import dirname, join
 
+import pandas as pd
 import numpy as np
 import pandas.io.sql as psql
 import sqlite3 as sql
@@ -9,45 +10,58 @@ from bokeh.layouts import layout, column
 from bokeh.models import ColumnDataSource, Div
 from bokeh.models.widgets import Slider, Select, TextInput
 from bokeh.io import curdoc
-from bokeh.sampledata.movies_data import movie_path
 
-conn = sql.connect(movie_path)
-query = open(join(dirname(__file__), 'query.sql')).read()
-movies = psql.read_sql(query, conn)
+# bokeh.sampledata.download()
+# try:
+#     from bokeh.sampledata.movies_data import movie_path    
+# except Exception as e:
+#     raise e
 
-movies["color"] = np.where(movies["Oscars"] > 0, "orange", "grey")
-movies["alpha"] = np.where(movies["Oscars"] > 0, 0.9, 0.25)
-movies.fillna(0, inplace=True)  # just replace missing values with zero
-movies["revenue"] = movies.BoxOffice.apply(lambda x: '{:,d}'.format(int(x)))
+# conn = sql.connect(movie_path)
+# query = open(join(dirname(__file__), 'query.sql')).read()
+# movies = psql.read_sql(query, conn)
 
-with open(join(dirname(__file__), "razzies-clean.csv")) as f:
-    razzies = f.read().splitlines()
-movies.loc[movies.imdbID.isin(razzies), "color"] = "purple"
-movies.loc[movies.imdbID.isin(razzies), "alpha"] = 0.9
+df = pd.read_csv(r"../data/titanic-train.csv")
 
+
+
+df["color"] = np.where(df["Survived"] > 0, "orange", "grey")
+df["alpha"] = np.where(df["Survived"] > 0, 0.9, 0.25)
+df.fillna(0, inplace=True)  # just replace missing values with zero
+
+print(df.columns)
 axis_map = {
-    "Tomato Meter": "Meter",
-    "Numeric Rating": "numericRating",
-    "Number of Reviews": "Reviews",
-    "Box Office (dollars)": "BoxOffice",
-    "Length (minutes)": "Runtime",
-    "Year": "Year",
+    "Sex": "Sex",
+    "Age": "Age",
+    "Sibling/ Spouse": "SibSp",
+    "Parent/ Child": "Parch",
+    "Fare": "Fare",
+    "Embarked": "Embarked",
 }
-
-desc = Div(text=open(join(dirname(__file__), "description.html")).read(), sizing_mode="stretch_width")
+html_template = '''
+<html>
+<head>
+    <title>
+        Bokeh Dashboard 
+    </title>
+</head>
+<body>
+<div> 
+    <h1> Bokeh Dashboard </h1>
+</div>
+</body>
+</html>
+'''
+desc = Div(text=html_template, sizing_mode="scale_both")
 
 # Create Input controls
-reviews = Slider(title="Minimum number of reviews", value=80, start=10, end=300, step=10)
-min_year = Slider(title="Year released", start=1940, end=2014, value=1970, step=1)
-max_year = Slider(title="End Year released", start=1940, end=2014, value=2014, step=1)
-oscars = Slider(title="Minimum number of Oscar wins", start=0, end=4, value=0, step=1)
-boxoffice = Slider(title="Dollars at Box Office (millions)", start=0, end=800, value=0, step=1)
-genre = Select(title="Genre", value="All",
-               options=open(join(dirname(__file__), 'genres.txt')).read().split())
-director = TextInput(title="Director name contains")
-cast = TextInput(title="Cast names contains")
-x_axis = Select(title="X Axis", options=sorted(axis_map.keys()), value="Tomato Meter")
-y_axis = Select(title="Y Axis", options=sorted(axis_map.keys()), value="Number of Reviews")
+# boxoffice = Slider(title="Dollars at Box Office (millions)", start=0, end=800, value=0, step=1)
+gender = Select(title="Sex", value="All", options=list(df.Sex.unique()))
+# cast = TextInput(title="Cast names contains")
+x_axis = Select(title="X Axis", options=sorted(axis_map.keys()), value="Sex")
+y_axis = Select(title="Y Axis", options=sorted(axis_map.keys()), value="Fare")
+
+
 
 # Create Column Data Source that will be used by the plot
 source = ColumnDataSource(data=dict(x=[], y=[], color=[], title=[], year=[], revenue=[], alpha=[]))
@@ -58,10 +72,10 @@ TOOLTIPS=[
     ("$", "@revenue")
 ]
 
-p = figure(plot_height=600, plot_width=700, title="", toolbar_location=None, tooltips=TOOLTIPS, sizing_mode="scale_both")
+p = figure(plot_height=600, plot_width=700, title="", toolbar_location=None, tool_events=TOOLTIPS, sizing_mode="scale_both")
 p.circle(x="x", y="y", source=source, size=7, color="color", line_color=None, fill_alpha="alpha")
 
-
+'''
 def select_movies():
     genre_val = genre.value
     director_val = director.value.strip()
@@ -99,8 +113,12 @@ def update():
         revenue=df["revenue"],
         alpha=df["alpha"],
     )
+'''
+controls = [gender, x_axis, y_axis]
 
-controls = [reviews, boxoffice, genre, min_year, max_year, oscars, director, cast, x_axis, y_axis]
+def update(*args, **kwargs):
+    print("update called")
+
 for control in controls:
     control.on_change('value', lambda attr, old, new: update())
 
