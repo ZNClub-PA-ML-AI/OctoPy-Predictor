@@ -54,8 +54,7 @@ Generic platform for Prediction using basic machine learning models
 - NameError: name 'fetch_all_features' is not defined :: currently converted to self.method_name(). Need to learn about static methods in Python Class	
 - Give options as REGRESSION / CLASSIFICATION. Else regression data fails for classification model
 
-[logo]: https://raw.githubusercontent.com/ZNevzz/ZNevzz.github.io/master/Octo-Py.png
-
+[logo]: https://raw.githubusercontent.com/ZNClub-PA-ML-AI/OctoPy-Predictor/master/Octo-Py.png
 
 ## SETUP/ CONFIGURATIONS
 
