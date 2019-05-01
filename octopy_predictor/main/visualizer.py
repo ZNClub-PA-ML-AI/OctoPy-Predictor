@@ -7,7 +7,7 @@ from bokeh.plotting import figure, show, output_file
 from matplotlib import pyplot as plt
 
 class Visualizer(object):
-    """docstring for Visualizer"""
+    """base class for all Visualizers"""
     def __init__(self, arg = None):
         super(Visualizer, self).__init__()
         self.arg = arg
@@ -52,3 +52,15 @@ class BokehVisualizer(Visualizer):
 
         output_file("time_series.html")
         show(p)
+
+        
+class PandasVisualizer(Visualizer):
+    """visualization using Pandas plotting methods
+    
+    single column df : bar, line, area, hist
+    
+    """
+    
+    def bar(self, df, column):
+        df[column].value_counts().plot.bar()
+        
