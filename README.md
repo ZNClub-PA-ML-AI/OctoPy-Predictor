@@ -32,10 +32,13 @@ Generic platform for Prediction using basic machine learning models
 
 ## Structure
 
-- bokeh_demo: Visualizer Component Demo - to be moved out
+
 - data: All data to be stored/ loaded
-- flask_demo: WebInterface Demo - to be moved out
-- main: All working component files
+- demo
+    - bokeh_demo: Visualizer Component Demo - to be moved out
+    - flask_demo: WebInterface Demo - to be moved out
+- src: All working component files
+- tests
 
 ## Components
 
