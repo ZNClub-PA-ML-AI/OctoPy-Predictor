@@ -4,7 +4,6 @@ python:
 script: 
   - sonar-scanner
   - pytest
-	
 addons:
   sonarcloud:
     organization: "PA-ML-AI"
