@@ -1,4 +1,7 @@
-
+'''
+DataGatherer Component: responsible to read data from resource
+and return a pandas DataFrame
+'''
 import pandas as pd
 from io import StringIO
 from collections import namedtuple
