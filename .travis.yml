@@ -2,9 +2,8 @@ language: python
 python:
   "3.5"
 script: 
-	- sonar-scanner
-	- pytest
-	
+  - sonar-scanner
+  - pytest
 addons:
   sonarcloud:
     organization: "PA-ML-AI"
