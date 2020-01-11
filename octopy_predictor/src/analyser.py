@@ -1,4 +1,7 @@
-
+"""
+analyser.py
+ 
+"""
 from sklearn.metrics import explained_variance_score
 
 class Analyser(object):
@@ -6,8 +9,12 @@ class Analyser(object):
     def __init__(self, arg = None):
         super(Analyser, self).__init__()
         self.arg = arg        
-        self.regression_metrics = {'Explained Variance' : explained_variance_score}
-        self.metrics = {'regression' : self.regression_metrics}
+        self.regression_metrics = {
+                'Explained Variance' : explained_variance_score
+                }
+        self.metrics = {
+                'regression' : self.regression_metrics
+                }
         
     def get_columns(self, df):
         return df.columns.values
@@ -27,8 +34,10 @@ class Analyser(object):
         return metric_values
     
     def _is_categorical(self, label):
-        return len(set(label)) < 10 and all(map(label, lambda x: isintance(x, str)))
+        """
+        input: 
+        """
+        return len(set(label)) < 10 and all(map(label, lambda x: isinstance(x, str)))
     
     def get_model_type_by_label(self, label = []):
         return 'Classification' if self._is_categorical(label) else 'Regression'
-    

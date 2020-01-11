@@ -48,6 +48,19 @@ Generic platform for Prediction using basic machine learning models
 
 ## Setup
 
+- setup conda env
+
+```bash
+conda env list # show current environments
+conda create --name OctoPy # if OctoPy is NOT listed
+conda list # show all libraries
+conda install pip # if pip is NOT listed
+conda list > versions.txt # store all versions post install
+pip install -r requirements.txt # install from requirements
+conda list > versions.txt # store all versions post install
+
+```
+
 ## Input File Constraints
 
 ## Algorithms supported
