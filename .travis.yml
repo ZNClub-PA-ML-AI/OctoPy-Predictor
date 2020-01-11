@@ -1,0 +1,14 @@
+language: python
+python:
+  "3.8"
+before_install:
+  - "pip install -U pip"
+  - "export PYTHONPATH=$PYTHONPATH:$(pwd)"
+script: 
+#  - sonar-scanner
+  - pytest
+addons:
+  sonarcloud:
+    organization: "PA-ML-AI"
+    token:
+      secure: "19f1dfde5153cc1745a9e0fe469be20ccfd67ce7"

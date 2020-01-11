@@ -1,4 +1,23 @@
-# OctoPy-Predictor
+<pre>
+
+
+                    ___                                      
+                   (   )                                     
+  .--.     .--.     | |_       .--.        .-..    ___  ___  
+ /    \   /    \   (   __)    /    \      /    \  (   )(   ) 
+|  .-. ; |  .-. ;   | |      |  .-. ;    ' .-,  ;  | |  | |  
+| |  | | |  |(___)  | | ___  | |  | |    | |  . |  | |  | |  
+| |  | | |  |       | |(   ) | |  | |    | |  | |  | '  | |  
+| |  | | |  | ___   | | | |  | |  | |    | |  | |  '  `-' |  
+| '  | | |  '(   )  | ' | |  | '  | |    | |  ' |   `.__. |  
+'  `-' / '  `-' |   ' `-' ;  '  `-' /    | `-'  '   ___ | |  
+ `.__.'   `.__,'     `.__.    `.__.'     | \__.'   (   )' |  
+                                         | |        ; `-' '  
+                                        (___)        .__.'   
+
+
+</pre>
+
 Generic platform for Prediction using basic machine learning models
 
 ## Index
@@ -13,10 +32,13 @@ Generic platform for Prediction using basic machine learning models
 
 ## Structure
 
-- bokeh_demo: Visualizer Component Demo - to be moved out
+
 - data: All data to be stored/ loaded
-- flask_demo: WebInterface Demo - to be moved out
-- main: All working component files
+- demo
+    - bokeh_demo: Visualizer Component Demo - to be moved out
+    - flask_demo: WebInterface Demo - to be moved out
+- src: All working component files
+- tests
 
 ## Components
 
@@ -25,6 +47,19 @@ Generic platform for Prediction using basic machine learning models
 
 
 ## Setup
+
+- setup conda env
+
+```bash
+conda env list # show current environments
+conda create --name OctoPy # if OctoPy is NOT listed
+conda list # show all libraries
+conda install pip # if pip is NOT listed
+conda list > versions.txt # store all versions post install
+pip install -r requirements.txt # install from requirements
+conda list > versions.txt # store all versions post install
+
+```
 
 ## Input File Constraints
 
@@ -35,8 +70,7 @@ Generic platform for Prediction using basic machine learning models
 - NameError: name 'fetch_all_features' is not defined :: currently converted to self.method_name(). Need to learn about static methods in Python Class	
 - Give options as REGRESSION / CLASSIFICATION. Else regression data fails for classification model
 
-[logo]: https://raw.githubusercontent.com/ZNevzz/ZNevzz.github.io/master/Octo-Py.png
-
+[logo]: https://raw.githubusercontent.com/ZNClub-PA-ML-AI/OctoPy-Predictor/master/Octo-Py.png
 
 ## SETUP/ CONFIGURATIONS
 
