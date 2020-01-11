@@ -1,10 +1,21 @@
-# test for visualizer.py
+"""Tests for analyser.py"""
 
-#import sys
-#sys.path.insert(0, '../main/')
-
-from octopy_predictor.src.analyser import Analyser
+from octopy_predictor.src.analyser import Analyser, AnalyserMetricsRegistry, REGRESSION_MODEL
 import unittest
+
+class AnalyserMetricsRegistryTest(unittest.TestCase):
+    """Test cases for AnalyserMetricsRegistry"""
+    
+    def setUp(self):
+        self.registry = AnalyserMetricsRegistry()
+    
+    def test_regression_model(self):
+        
+        result = self.registry.apply_metrics(REGRESSION_MODEL,
+                                    ([.0, 1.5, 3.0], [-3.0, -1.5, .0])
+                                    )
+        
+        self.assertIsNotNone(result, "apply_metrics returned null") 
 
 class AnalyserTest(unittest.TestCase):
 	"""Test cases for Analyser"""
@@ -18,9 +29,9 @@ class AnalyserTest(unittest.TestCase):
 
 		actual_result = self.analyser.get_model_type_by_label(array)
 
-		self.assertEquals(actual_result, expected_result)
+		self.assertEqual(actual_result, expected_result, "expected does not match actual")
 
 if __name__ == '__main__': 
     # unittest.main()
-    suite = unittest.defaultTestLoader.loadTestsFromTestCase(AnalyserTest)
+    suite = unittest.defaultTestLoader.loadTestsFromTestCase(AnalyserMetricsRegistryTest)
     unittest.TextTestRunner().run(suite)

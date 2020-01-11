@@ -63,3 +63,4 @@ def is_allowed_file(filename):
     return True
     #TODO
     #return '.' in filename and filename.rsplit('.', 1)[1] in context.ALLOWED_EXTENSIONS
+

@@ -1,10 +1,13 @@
+#Travis CI build configuration
 language: python
 python:
   "3.8"
+#help: https://stackoverflow.com/questions/35972415/python-import-fails-on-travisci-but-not-locally  
 before_install:
   - "pip install -U pip"
   - "export PYTHONPATH=$PYTHONPATH:$(pwd)"
-script: 
+script:
+#The command "sonar-scanner" exited with 1: https://travis-ci.org/ZNClub-PA-ML-AI/OctoPy-Predictor/builds/635588777#L594
 #  - sonar-scanner
   - pytest
 addons:
