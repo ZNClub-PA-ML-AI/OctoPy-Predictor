@@ -10,10 +10,7 @@ class AnalyserTest(unittest.TestCase):
 	"""Test cases for Analyser"""
 
 	def setUp(self):
-		self.analyser = Analyser()
-
-	def test(self):
-		self.assertTrue(True)
+		self.analyser = Analyser()	
 
 	def test_is_regression_model_type(self):
 		expected_result = 'Regression'
