@@ -56,7 +56,7 @@ conda create --name OctoPy # if OctoPy is NOT listed
 conda list # show all libraries
 conda install pip # if pip is NOT listed
 conda list > versions.txt # store all versions post install
-pip install - requirements.txt # install from requirements
+pip install -r requirements.txt # install from requirements
 conda list > versions.txt # store all versions post install
 
 ```
