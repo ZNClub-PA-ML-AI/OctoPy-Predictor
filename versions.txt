@@ -4,17 +4,25 @@
 _libgcc_mutex             0.1                        main  
 ca-certificates           2019.11.27                    0  
 certifi                   2019.11.28               py38_0  
+joblib                    0.14.1                   pypi_0    pypi
 ld_impl_linux-64          2.33.1               h53a641e_7  
 libedit                   3.1.20181209         hc058e9b_0  
 libffi                    3.2.1                hd88cf55_4  
 libgcc-ng                 9.1.0                hdf63c60_0  
 libstdcxx-ng              9.1.0                hdf63c60_0  
 ncurses                   6.1                  he6710b0_1  
+numpy                     1.18.1                   pypi_0    pypi
 openssl                   1.1.1d               h7b6447c_3  
+pandas                    0.25.3                   pypi_0    pypi
 pip                       19.3.1                   py38_0  
 python                    3.8.1                h0371630_1  
+python-dateutil           2.8.1                    pypi_0    pypi
+pytz                      2019.3                   pypi_0    pypi
 readline                  7.0                  h7b6447c_5  
+scikit-learn              0.22.1                   pypi_0    pypi
+scipy                     1.4.1                    pypi_0    pypi
 setuptools                44.0.0                   py38_0  
+six                       1.13.0                   pypi_0    pypi
 sqlite                    3.30.1               h7b6447c_0  
 tk                        8.6.8                hbc83047_0  
 wheel                     0.33.6                   py38_0  
