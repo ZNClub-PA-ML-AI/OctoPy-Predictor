@@ -1,12 +1,10 @@
 # test for visualizer.py
 
-import sys
-sys.path.insert(0, '../main/')
+#import sys
+#sys.path.insert(0, '../main/')
 
-from analyser import Analyser
+from octopy_predictor.src.analyser import Analyser
 import unittest
-import pandas as pd
-import numpy as np
 
 class AnalyserTest(unittest.TestCase):
 	"""Test cases for Analyser"""
