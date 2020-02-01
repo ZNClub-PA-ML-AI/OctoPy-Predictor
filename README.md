@@ -53,6 +53,7 @@ Generic platform for Prediction using basic machine learning models
 ```bash
 conda env list # show current environments
 conda create --name OctoPy # if OctoPy is NOT listed
+conda activate OctoPy
 conda list # show all libraries
 conda install pip # if pip is NOT listed
 conda list > versions.txt # store all versions post install
