@@ -6,11 +6,52 @@ import pandas as pd
 from io import StringIO
 from collections import namedtuple
 
+# TODO
 #from util import logit
 #import util
 
+'''
+CONSTANTS
+'''
+FILE = 'FILE'
+SQL = 'SQL'
+FILE_PATH = 'FILEPATH'
+CONNECTION = 'CONN'
+QUERY_PARAMERTERS = 'SQLPARAMS'
+
+class DataGathererInput(object):
+    """docstring for DataGathererInput
+    
+   """
+    FILE_CONSTRAINTS = [FILE_PATH]
+    SQL_CONSTRAINTS = [CONNECTION, QUERY_PARAMERTERS]
+    
+    CONSTRAINTS = {
+        FILE:FILE_CONSTRAINTS,
+        SQL:SQL_CONSTRAINTS
+    }
+    
+    
+    def __init__(self, type):
+        
+        if type not in DataGathererInput.CONSTRAINTS.keys():
+            pass
+            #TODO Throw error
+        self.type = type
+        self.values = {}
+    
+    def add(self, key, value):
+        if key in DataGathererInput.CONSTRAINTS[self.type]:
+            self.values[key] = value
+        
+
 class DataGatherer(object):
-    """docstring for DataGatherer"""
+    """docstring for DataGatherer
+    DataGatherer is responsible to fetch data from multiple sources
+    and convert it to a specific type using provided Adapters
+    
+    The defaul Adapter is DataFrame
+    """
     def __init__(self, arg = None):
         super(DataGatherer, self).__init__()
         self.arg = arg
@@ -71,7 +112,7 @@ class DataGatherer(object):
         return df
                 
     #@logit
-    def read(self, path = None, file = None):
+    def read(self, path = None, file = None, sql = None):
         '''
         read receives either path or file. If received both, file is given priority
         '''
