@@ -4,7 +4,10 @@ import unittest
 import sqlite3
 
 from octopy_predictor.src.datagatherer import *
-    
+
+   
+# c1 = sqlite3.connect("file::memory:?cache=shared", uri=True)   
+conn = 'file::memory:?cache=shared'
 
 class DataGathererTest(unittest.TestCase):
     """Test cases for DataGatherer"""
@@ -12,11 +15,30 @@ class DataGathererTest(unittest.TestCase):
     def setUp(self):
         self.gatherer = DataGatherer()    
     
-    def test_determine_resource(self):
+    def test_read_sql(self):
         """
-        TBD
-        """
-        self.assertTrue(1==1)
+        Test ...
+
+ 
+        given: input is SQL 
+        when: DataGathererInput is created
+        then: all parameters required for SQL datagatherer should be available
+        
+        """        
+ 
+        input = DataGathererInput(SQL)
+        input.add(QUERY, "SELECT 'A1' AS A, 'B1' AS B FROM DUAL ")
+        input.add(CONNECTION, )
+        gatherer = DataGatherer()
+        
+        df = gatherer.read_sql(input)
+        
+        assertIsNotNone(df)
+
+        
+        
+
+        
         
 class DataGathererInputTest(unittest.TestCase):
     """Test cases for DataGathererInput"""
@@ -27,11 +49,7 @@ class DataGathererInputTest(unittest.TestCase):
         when: DataGathererInput is created
         then: all parameters required for SQL datagatherer should be available
         """
-        
-        # c1 = sqlite3.connect("file::memory:?cache=shared", uri=True)
-
-        conn = 'file::memory:?cache=shared'
-        
+     
         expected = {
             'type': SQL,
             CONNECTION: conn

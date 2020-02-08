@@ -58,7 +58,7 @@ class DataGathererInput(object):
             pass
             #TODO Throw error
         self.type = type
-        self._values = {}
+        self.values = {}
     
     def add(self, key:str, value):
         """
