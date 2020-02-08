@@ -4,11 +4,6 @@ import unittest
 import sqlite3
 
 from octopy_predictor.src.datagatherer import *
-
-def _create_test_connection():
-    conn = sqlite3.connect(':memory:')
-    
-    #TODO create test dataframes and corresponding tables in sqliter3
     
 
 class DataGathererTest(unittest.TestCase):
@@ -32,7 +27,11 @@ class DataGathererInputTest(unittest.TestCase):
         when: DataGathererInput is created
         then: all parameters required for SQL datagatherer should be available
         """
-        conn = _create_test_connection()
+        
+        # c1 = sqlite3.connect("file::memory:?cache=shared", uri=True)
+
+        conn = 'file::memory:?cache=shared'
+        
         expected = {
             'type': SQL,
             CONNECTION: conn
@@ -46,5 +45,5 @@ class DataGathererInputTest(unittest.TestCase):
 
 if __name__ == '__main__': 
     # unittest.main()
-    suite = unittest.defaultTestLoader.loadTestsFromTestCase(DataGathererTest)
+    suite = unittest.defaultTestLoader.loadTestsFromTestCase(DataGathererInputTest)
     unittest.TextTestRunner().run(suite)

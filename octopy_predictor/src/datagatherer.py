@@ -5,6 +5,8 @@ and return a pandas DataFrame
 import pandas as pd
 from io import StringIO
 from collections import namedtuple
+import sqlite3
+ 
 
 # TODO
 #from util import logit
@@ -17,14 +19,20 @@ FILE = 'FILE'
 SQL = 'SQL'
 FILE_PATH = 'FILEPATH'
 CONNECTION = 'CONN'
+QUERY = 'SQL'
 QUERY_PARAMERTERS = 'SQLPARAMS'
 
 class DataGathererInput(object):
-    """docstring for DataGathererInput
+    """
+    DataGathererInput
     
-   """
+    Usage
+    ----------
+    DataGatherer
+    
+    """
     FILE_CONSTRAINTS = [FILE_PATH]
-    SQL_CONSTRAINTS = [CONNECTION, QUERY_PARAMERTERS]
+    SQL_CONSTRAINTS = [CONNECTION, QUERY, QUERY_PARAMERTERS]
     
     CONSTRAINTS = {
         FILE:FILE_CONSTRAINTS,
@@ -32,17 +40,46 @@ class DataGathererInput(object):
     }
     
     
-    def __init__(self, type):
+    def __init__(self, type:str):
+        """
         
+
+        Parameters
+        ----------
+        type : str
+            TYPE of DataGatherer.
+
+        Returns
+        -------
+        None.
+
+        """
+                
         if type not in DataGathererInput.CONSTRAINTS.keys():
             pass
             #TODO Throw error
         self.type = type
         self.values = {}
     
-    def add(self, key, value):
+    def add(self, key:str, value):
+        """
+        
+
+        Parameters
+        ----------
+        key : str
+            valid keys present in CONSTRAINTS values.
+        value : any
+            value corresponding to key.
+
+        Returns
+        -------
+        None.
+
+        """
+        
         if key in DataGathererInput.CONSTRAINTS[self.type]:
-            self.values[key] = value
+            self.values[key] = value    
         
 
 class DataGatherer(object):
@@ -136,3 +173,26 @@ class DataGatherer(object):
         finally:
             #util.debug_store['df at datagatherer'] = df.to_json(orient='columns')
             return df
+    
+    def read_sql(self, input: DataGathererInput):
+        """
+
+
+        Parameters
+        ----------
+        input : DataGathererInput
+        
+        Contains values required to execute SQL QUERY.
+
+        Returns
+        -------
+        df : DataFrame
+        
+        Result of SQL QUERY.
+
+        """
+        df = pd.DataFrame()
+        conn = sqlite3.connect(input[CONNECTION])
+        df = pd.read_sql_query(input[QUERY], con=conn)
+        return df
+        
