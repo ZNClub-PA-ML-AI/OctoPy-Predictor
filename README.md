@@ -26,7 +26,8 @@ Generic platform for Prediction using basic machine learning models
 |---|---|
 | master | ![](https://api.travis-ci.org/ZNClub-PA-ML-AI/OctoPy-Predictor.svg?branch=master) | 
 | datagatherer | ![](https://api.travis-ci.org/ZNClub-PA-ML-AI/OctoPy-Predictor.svg?branch=datagatherer) | 
-| Architecture/Core-Design-loosely-coupled-classes | ![](https://api.travis-ci.org/ZNClub-PA-ML-AI/OctoPy-Predictor.svg?branch=Architecture/Core-Design-loosely-coupled-classes) 
+| Architecture/Core-Design-loosely-coupled-classes | ![](https://api.travis-ci.org/ZNClub-PA-ML-AI/OctoPy-Predictor.svg?branch=Architecture/Core-Design-loosely-coupled-classes) | 
+| develop | ![](https://api.travis-ci.org/ZNClub-PA-ML-AI/OctoPy-Predictor.svg?branch=develop) | 
 
 ## Index
 
