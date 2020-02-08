@@ -194,6 +194,6 @@ class DataGatherer(object):
         """
         df = pd.DataFrame()
         # TODO Move all connections to application start-up
-        conn = sqlite3.connect(gatherer_input.values[CONNECTION])
+        conn = sqlite3.connect(gatherer_input.values[CONNECTION], uri=True)
         df = pd.read_sql_query(gatherer_input.values[QUERY], con=conn)
         return df
