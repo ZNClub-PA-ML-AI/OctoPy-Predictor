@@ -19,8 +19,8 @@ class DataGathererTest(unittest.TestCase):
         self.assertTrue(1==1)
         
 class DataGathererInputTest(unittest.TestCase):
-    """Test cases for DataGathererInput"""  
-    
+    """Test cases for DataGathererInput"""
+            
     def test_SQL_inputs(self):
         """
         given: input is SQL 

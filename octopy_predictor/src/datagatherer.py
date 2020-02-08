@@ -54,21 +54,21 @@ class DataGathererInput(object):
         None.
 
         """
-                
         if type not in DataGathererInput.CONSTRAINTS.keys():
             pass
             #TODO Throw error
         self.type = type
-        self.values = {}
+        self._values = {}
     
-    def add(self, key:str, value):
+    @values.setter
+    def values(self, key:str, value):
         """
         
 
         Parameters
         ----------
         key : str
-            valid keys present in CONSTRAINTS values.
+            valid keys present in CONSTRAINTS _values.
         value : any
             value corresponding to key.
 
@@ -79,7 +79,7 @@ class DataGathererInput(object):
         """
         
         if key in DataGathererInput.CONSTRAINTS[self.type]:
-            self.values[key] = value    
+            self._values[key] = value    
         
 
 class DataGatherer(object):
@@ -182,7 +182,7 @@ class DataGatherer(object):
         ----------
         input : DataGathererInput
         
-        Contains values required to execute SQL QUERY.
+        Contains _values required to execute SQL QUERY.
 
         Returns
         -------
@@ -192,6 +192,7 @@ class DataGatherer(object):
 
         """
         df = pd.DataFrame()
+        #TODO Move all connections to application start-up 
         conn = sqlite3.connect(input[CONNECTION])
         df = pd.read_sql_query(input[QUERY], con=conn)
         return df
