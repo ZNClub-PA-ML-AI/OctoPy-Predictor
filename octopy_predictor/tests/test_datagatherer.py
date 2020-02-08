@@ -52,16 +52,20 @@ class DataGathererTest(unittest.TestCase):
         then dataframe should be returned
 
         """
-        expected_df = pd.DataFrame(np.reshape(np.arange(10), (2,5)), index=np.arange(2))
+        #%%
+        expected_df = pd.DataFrame(np.reshape(np.arange(10), (2,5)))
         c = sqlite3.connect(conn, uri=True)
-        expected_df.to_sql('test', con=c, if_exists='replace')
+        expected_df.to_sql('test', con=c, if_exists='replace', index=False)
+        #%%
+        
+        #%%
         gatherer_input = DataGathererInput(SQL)
         gatherer_input.add(QUERY, "SELECT * FROM test")
         gatherer_input.add(CONNECTION, conn)
         gatherer = DataGatherer()
         
         df = gatherer.read_sql(gatherer_input)
-        
+        #%%
         self.assertIsNotNone(df)
         self.assertFalse(df.empty, "df is empty")
         self.assertEqual(expected_df.shape, df.shape)
