@@ -19,7 +19,8 @@
 </pre>
 
 Generic platform for Prediction using basic machine learning models
-![](https://api.travis-ci.org/ZNClub-PA-ML-AI/OctoPy-Predictor.svg?branch=master)
+
+![master](https://api.travis-ci.org/ZNClub-PA-ML-AI/OctoPy-Predictor.svg?branch=master)
 
 
 ## Index
