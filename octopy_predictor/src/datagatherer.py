@@ -60,8 +60,7 @@ class DataGathererInput(object):
         self.type = type
         self._values = {}
     
-    @values.setter
-    def values(self, key:str, value):
+    def add(self, key:str, value):
         """
         
 
@@ -79,7 +78,7 @@ class DataGathererInput(object):
         """
         
         if key in DataGathererInput.CONSTRAINTS[self.type]:
-            self._values[key] = value    
+            self.values[key] = value    
         
 
 class DataGatherer(object):
