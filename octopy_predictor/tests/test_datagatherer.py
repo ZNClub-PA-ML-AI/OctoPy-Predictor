@@ -5,8 +5,6 @@ import pandas as pd
 import numpy as np
 from octopy_predictor.src.datagatherer import *
 
-
-# c1 = sqlite3.connect("file::memory:?cache=shared", uri=True)
 conn = 'file::memory:?cache=shared'
 
 
@@ -29,7 +27,7 @@ class DataGathererTest(unittest.TestCase):
 
         """
         c = sqlite3.connect(conn, uri=True)
-        c.execute('drop table test')
+        c.execute('drop table if exists test')
         gatherer_input = DataGathererInput(SQL)
         gatherer_input.add(QUERY, "SELECT * FROM sqlite_master")
         gatherer_input.add(CONNECTION, conn)
