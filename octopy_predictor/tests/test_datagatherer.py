@@ -8,6 +8,7 @@ from octopy_predictor.src.datagatherer import *
 conn = 'file::memory:?cache=shared'
 
 
+
 class DataGathererTest(unittest.TestCase):
     """Test cases for DataGatherer"""
 
@@ -15,6 +16,7 @@ class DataGathererTest(unittest.TestCase):
         self.gatherer = DataGatherer()
 
     def test_read_sql_from_empty_table(self):
+
         """
         Test read_sql()
 
@@ -79,16 +81,19 @@ class DataGathererInputTest(unittest.TestCase):
         then: all parameters required for SQL datagatherer should be available
         """
 
+
         expected = {
             'type': SQL,
             CONNECTION: conn
         }
+
 
         input = DataGathererInput(SQL)
         input.add(CONNECTION, conn)
 
         self.assertIsNotNone(input.values)
         self.assertEqual(input.values[CONNECTION], expected[CONNECTION], "expected does not match actual")
+
 
 
 if __name__ == '__main__':
